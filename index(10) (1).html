@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NEXUS AI — Universal Engineering Intelligence</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+:root{
+ --bg:#eef2f4;--panel:#ffffff;--panel2:#f7f9fa;--ink:#172630;--muted:#72818a;
+ --line:#dfe6e9;--navy:#102f40;--navy2:#1b465b;--accent:#4e8399;--accent2:#8eb4c2;
+ --good:#4c7b61;--warn:#a1723a;--bad:#a85454;--shadow:0 20px 60px rgba(16,47,64,.08);
+ --r:22px
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,sans-serif;font-size:13px;line-height:1.85}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:286px 1fr;direction:ltr}
+.sidebar{direction:rtl;background:#fbfcfc;border-left:1px solid var(--line);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}
+.main{direction:rtl;min-width:0}
+.brand{display:flex;align-items:center;gap:11px;padding:4px 7px 18px}.logo{width:44px;height:44px;border-radius:15px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;box-shadow:0 8px 20px #102f4020}.brand b{font-size:15px}.brand small{display:block;color:var(--muted);font-size:8px}
+.drawerHint{font-size:8px;color:var(--muted);background:#f1f5f6;border:1px solid var(--line);border-radius:12px;padding:9px;text-align:center}.sideSearch{width:100%;border:1px solid var(--line);background:#f4f7f8;border-radius:14px;padding:10px 12px;outline:0}
+.sideTitle{font-size:8px;color:#a0abb0;margin:21px 8px 6px;font-weight:700;letter-spacing:.6px}
+.nav button{width:100%;border:0;background:transparent;color:#66767f;text-align:right;padding:10px 11px;border-radius:12px;margin:2px 0;transition:.18s}.nav button:hover,.nav button.active{background:#eaf1f3;color:var(--navy);font-weight:700}.nav button .ico{display:inline-block;width:25px;color:#6f8b97}
+.sideFooter{margin-top:25px;padding:13px 7px;border-top:1px solid var(--line);display:flex;align-items:center;gap:9px}.avatar{width:32px;height:32px;border-radius:11px;background:#dfe9ed;display:grid;place-items:center;font-size:10px;font-weight:800}
+.topbar{height:70px;background:#ffffffd9;backdrop-filter:blur(18px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 27px}.crumb{font-size:10px;color:var(--muted)}.crumb b{color:var(--ink)}.topActions{display:flex;align-items:center;gap:7px}.state{font-size:9px;background:#edf5f0;color:var(--good);border:1px solid #dbe8df;border-radius:999px;padding:5px 9px}.topBtn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 11px;font-size:10px}.topBtn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.moreBtn{display:block;font-size:19px;line-height:1;padding:3px 9px}.moreMenu{position:fixed;top:64px;right:16px;z-index:80;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:8px;min-width:220px;display:none}.moreMenu button{display:block;width:100%;border:0;background:transparent;text-align:right;padding:10px;border-radius:10px;font-size:9px;color:var(--ink)}.moreMenu button:hover{background:#edf3f5}
+.page{max-width:1540px;margin:auto;padding:28px}
+.screen{display:none}.screen.active{display:block}.eyebrow{font-size:8px;letter-spacing:1px;color:var(--accent);font-weight:800}.heroTitle{font-size:34px;line-height:1.25;letter-spacing:-1px;margin:4px 0 4px}.sub{font-size:10px;color:var(--muted)}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:9px 13px;font-size:10px}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.btn.soft{background:#edf3f5;border-color:#edf3f5}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:22px 0}.metric{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 25px #102f4005}.metric small{font-size:8px;color:var(--muted)}.metric strong{display:block;font-size:23px;line-height:1.25}.metric em{font-style:normal;color:var(--good);font-size:8px}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:17px}.cardHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.cardHead h2{margin:0;font-size:13px}.cardHead span{font-size:8px;color:var(--muted)}
+.project{display:grid;grid-template-columns:1fr auto;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.project:last-child{border-bottom:0}.projectName{font-size:11px;font-weight:800}.code{font-size:8px;color:var(--muted);margin-right:8px}.desc{font-size:9px;color:var(--muted);margin-top:2px}.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}.tag{font-size:7px;background:#edf3f5;color:var(--navy);padding:3px 7px;border-radius:999px}.status{font-size:7px;padding:4px 7px;border-radius:999px;background:#edf5f0;color:var(--good)}.progress{height:5px;background:#edf2f4;border-radius:99px;overflow:hidden;margin-top:8px}.progress i{height:100%;display:block;background:var(--accent);border-radius:99px}.tinyBtn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 8px;font-size:8px;margin-top:7px}
+.activity{display:grid;gap:14px}.activityItem{display:grid;grid-template-columns:9px 1fr;gap:8px}.dot{width:7px;height:7px;background:var(--accent);border-radius:50%;margin-top:6px}.activityItem b{font-size:9px}.activityItem p{margin:1px 0;font-size:8px;color:var(--muted)}
+.workspace{display:grid;grid-template-columns:1fr 390px;gap:12px}.tabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:15px;overflow:auto}.tab{border:0;background:transparent;color:var(--muted);padding:9px 12px;font-size:9px;white-space:nowrap}.tab.active{color:var(--navy);font-weight:800;border-bottom:2px solid var(--navy)}
+.field{margin-bottom:11px}.field label{display:block;font-size:8px;color:var(--muted);margin-bottom:4px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 11px;outline:0;color:var(--ink)}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #4e839913}.field textarea{min-height:115px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.drop{border:1.5px dashed #b7c9d0;background:#fafcfc;border-radius:14px;padding:16px;text-align:center;color:var(--muted);font-size:9px}.drop input{display:none}
+.score{font-size:66px;line-height:1;font-weight:800;color:var(--navy)}.bar{height:8px;background:#eaf0f2;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:.7s;width:0}.miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.mini{background:#f0f4f5;border-radius:12px;padding:9px;font-size:8px;color:var(--muted)}.mini b{display:block;font-size:12px;color:var(--ink)}
+.list{display:grid;gap:7px}.row{background:#f1f5f6;border-radius:12px;padding:10px;font-size:9px}.row b{display:block;font-size:10px;margin-bottom:2px}.row small{color:var(--muted)}
+.scienceGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.scienceCard{min-height:125px}.scienceIcon{width:35px;height:35px;border-radius:11px;background:#eaf1f3;display:grid;place-items:center;color:var(--navy);font-weight:800}.scienceCard b{display:block;margin-top:7px;font-size:10px}.scienceCard p{margin:2px 0;color:var(--muted);font-size:8px}
+.tableWrap{overflow:auto}.matrix{border-collapse:collapse;width:100%;font-size:9px}.matrix th,.matrix td{border-bottom:1px solid var(--line);padding:10px;text-align:right;white-space:nowrap}.matrix th{font-size:8px;color:var(--muted)}.good{color:var(--good);font-weight:700}.warn{color:var(--warn);font-weight:700}.bad{color:var(--bad);font-weight:700}
+.chat{height:410px;overflow:auto;display:grid;align-content:start;gap:7px}.bubble{padding:10px;border-radius:13px;background:#f0f4f5;font-size:9px;max-width:90%}.bubble.me{background:var(--navy);color:#fff;margin-right:auto}.chatInput{display:flex;gap:7px;margin-top:9px}.chatInput input{flex:1;border:1px solid var(--line);border-radius:12px;padding:9px;outline:0}
+.toast{position:fixed;left:22px;bottom:22px;background:var(--navy);color:#fff;padding:10px 14px;border-radius:12px;font-size:9px;display:none;z-index:99}
+.loading{display:none;text-align:center;padding:18px;color:var(--muted);font-size:9px}.spinner{width:25px;height:25px;border:3px solid #dce5e8;border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:auto auto 7px}@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:1100px){.app{grid-template-columns:220px 1fr}.metrics{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.scienceGrid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.moreBtn{display:block}.topActions .topBtn:not(.primary){display:none}.app{display:block}.sidebar{height:auto;position:relative;border-left:0;border-bottom:1px solid var(--line)}.nav{display:grid;grid-template-columns:1fr 1fr}.sideTitle{grid-column:1/-1}.sideFooter{display:none}.topbar{padding:0 14px}.page{padding:15px}.metrics{grid-template-columns:1fr 1fr}.grid2,.grid3{grid-template-columns:1fr}.scienceGrid{grid-template-columns:1fr 1fr}.head{display:block}.actions{margin-top:10px}.heroTitle{font-size:27px}}
+</style>
+
+<style id="ultimate-overrides">
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+:root{--r:26px;--bg:#edf1f2;--panel:#fff;--ink:#172630;--navy:#123747;--accent:#5c8998}
+body{font-family:"Nunito","Tahoma",sans-serif;letter-spacing:.05px}
+.sidebar{display:none!important}
+.app{display:block}
+.page{max-width:1580px}
+.topbar{padding:0 30px}
+.moreBtn{width:48px;height:42px;border-radius:15px;font-size:26px;font-weight:800;display:grid;place-items:center;padding:0;box-shadow:0 7px 20px #102f4010}
+.moreMenu{position:fixed;top:76px;right:24px;width:min(390px,calc(100vw - 30px));max-height:calc(100vh - 96px);overflow:auto;background:rgba(255,255,255,.97);backdrop-filter:blur(22px);border:1px solid #dce5e8;box-shadow:0 30px 90px rgba(16,47,64,.18);border-radius:24px;padding:13px;display:none;z-index:100}
+.moreMenu.open{display:block}
+.menuTitle{font-size:13px;font-weight:900;color:var(--navy);padding:8px 10px 12px;border-bottom:1px solid var(--line)}
+.menuGroup{font-size:8px;color:#9aa7ad;font-weight:800;padding:13px 9px 4px}
+.moreMenu button{display:flex;align-items:center;width:100%;border:0;background:transparent;text-align:right;padding:11px 10px;border-radius:13px;font-size:10px;color:var(--ink)}
+.moreMenu button:hover{background:#edf3f5;color:var(--navy);font-weight:800}
+.heroTitle{font-weight:900}
+.card,.metric{border-radius:26px}
+.btn,.topBtn,.field input,.field textarea,.field select,.drop,.tinyBtn{border-radius:15px}
+.scienceCard{border-radius:22px}
+<style>#menuOverlay{display:none;position:fixed;inset:0;background:#102f4008;z-index:90}#moreMenu.open~#menuOverlay{display:block}</style>
+<style id="jouaren-inspired-shell">
+/* Clean marketplace/dashboard shell inspired by the information architecture observed on Jouaren,
+   without copying its branding or content. */
+.topbar{height:76px;padding:0 24px}
+.topbar .crumb{font-size:10px}
+.menuTitle{display:flex;justify-content:space-between;align-items:center}
+.menuTitle::after{content:"AI ENGINEERING";font-size:7px;color:var(--accent);background:#edf4f6;padding:4px 7px;border-radius:999px}
+.moreMenu{width:min(430px,calc(100vw - 24px));padding:10px}
+.menuGroup{margin-top:4px;background:#f7f9fa;border-radius:11px;padding:7px 9px;color:#75858d}
+.moreMenu button{padding:10px 11px}
+.moreMenu button::after{content:"›";margin-right:auto;color:#a0abb0;font-size:14px}
+.homeIntro{margin-top:18px;background:linear-gradient(135deg,#fff,#f1f6f7);border:1px solid var(--line);border-radius:28px;padding:24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.homeIntro .miniAction{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.miniAction button{min-width:125px}
+.kpiStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.kpiStrip .metric{box-shadow:none}
+.sectionTitle{font-size:17px;font-weight:900;margin:0}
+.emptyDepth{border:1px dashed #c9d6da;border-radius:18px;padding:20px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.homeIntro{grid-template-columns:1fr}.kpiStrip{grid-template-columns:1fr 1fr}.topbar{padding:0 13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar collapsedNav">
+ <div class="brand"><div class="logo">N</div><div><b>NEXUS AI</b><small>Universal Engineering Intelligence</small></div></div>
+ <input id="search" class="sideSearch" placeholder="جستجو در پروژه‌ها..." oninput="filterProjects()">
+ <div class="sideTitle">WORKSPACE</div>
+ <nav class="nav">
+  <button class="active" onclick="show('dashboard',this)"><span class="ico">⌂</span>داشبورد</button>
+  <button onclick="show('projects',this)"><span class="ico">▣</span>پروژه‌های من</button>
+  <button onclick="newProject()"><span class="ico">＋</span>پروژه جدید</button>
+  <button onclick="show('ai',this)"><span class="ico">✦</span>AI Lab</button>
+  <button onclick="show('science',this)"><span class="ico">◇</span>نقشه علوم</button>
+ </nav>
+ <div class="sideTitle">ENGINEERING</div>
+ <nav class="nav">
+  <button onclick="show('analysis',this)"><span class="ico">◎</span>تحلیل مهندسی</button>
+  <button onclick="show('compare',this)"><span class="ico">⇄</span>مقایسه راه‌حل‌ها</button>
+  <button onclick="show('validation',this)"><span class="ico">✓</span>اعتبارسنجی</button>
+  <button onclick="show('reports',this)"><span class="ico">▤</span>گزارش‌ها</button>
+ </nav>
+ <div class="sideTitle">MORE</div>
+ <nav class="nav"><button onclick="toggleMoreMenu()"><span class="ico">⋯</span>بیشتر</button></nav>
+ <div class="sideFooter"><div class="avatar">ک</div><div><b style="font-size:9px">Kurosh</b><br><span style="font-size:8px;color:var(--muted)">Project Owner</span></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><button class="topBtn moreBtn" aria-label="منوی اصلی" onclick="toggleMoreMenu()">⋯</button><div class="crumb">NEXUS / <b id="crumb">Dashboard</b></div><div class="topActions"><span class="state">● AI Gateway Ready</span><button class="topBtn" onclick="newProject()">＋ پروژه</button><button class="topBtn primary" onclick="show('ai')">✦ AI Lab</button></div></header>
+<div class="page">
+
+<section id="dashboard" class="screen active">
+<div class="head"><div><span class="eyebrow">COMMAND CENTER</span><h1 class="heroTitle">مرکز فرمان پروژه‌های هوشمند</h1><div class="sub">از یک ایده خام تا تحلیل علمی، طراحی، نمونه‌سازی، آزمایش و تصمیم نهایی.</div></div><div class="actions"><button class="btn" onclick="show('projects')">همه پروژه‌ها</button><button class="btn primary" onclick="newProject()">＋ پروژه جدید</button></div></div>
+<div class="homeIntro"><div><span class="eyebrow">NEXUS WORKSPACE</span><h2 class="sectionTitle">تمام مسیر پروژه، از مسئله تا اثبات نتیجه</h2><div class="sub">یک فضای واحد برای تعریف مسئله، تحلیل AI، محاسبه، منابع، طراحی، اعتبارسنجی و گزارش نهایی.</div></div><div class="miniAction"><button class="btn primary" onclick="newProject()">＋ شروع پروژه</button><button class="btn" onclick="show('ai')">✦ تحلیل با AI</button></div></div>
+<div class="kpiStrip"><div class="metric"><small>وضعیت AI</small><strong style="font-size:15px">READY</strong><em>Gateway فعال</em></div><div class="metric"><small>پرونده‌های علمی</small><strong style="font-size:15px">12</strong><em>رشته فعال</em></div><div class="metric"><small>آزمایش‌های باز</small><strong style="font-size:15px">03</strong><em style="color:var(--warn)">نیازمند نتیجه</em></div><div class="metric"><small>تصمیم‌های مهم</small><strong style="font-size:15px">06</strong><em>قابل پیگیری</em></div></div>
+<div class="metrics"><div class="metric"><small>پروژه فعال</small><strong>04</strong><em>+1 این هفته</em></div><div class="metric"><small>تحلیل AI</small><strong>27</strong><em>+8%</em></div><div class="metric"><small>آزمایش ثبت‌شده</small><strong>13</strong><em>3 در انتظار</em></div><div class="metric"><small>میانگین آمادگی</small><strong>78%</strong><em>پایدار</em></div><div class="metric"><small>تصمیم‌های باز</small><strong>06</strong><em style="color:var(--warn)">2 مهم</em></div></div>
+<div class="grid2">
+<div class="card"><div class="cardHead"><h2>پروژه‌های اخیر</h2><span>Live workspace</span></div><div id="projectList"></div></div>
+<div class="card"><div class="cardHead"><h2>نبض سیستم</h2><span>Today</span></div><div class="list">
+<div class="row"><b>✦ AI Insight</b>سه پروژه داده کافی برای تحلیل عمیق دارند.<small>سیستم پیشنهاد می‌کند ابتدا NX-014 اجرا شود.</small></div>
+<div class="row"><b>⚠ Risk Monitor</b>دو فرضیه هنوز بدون آزمایش هستند.<small>آن‌ها را قبل از ساخت نهایی اعتبارسنجی کن.</small></div>
+<div class="row"><b>✓ Validation</b>۶ آزمایش موفق و ۱ آزمایش نیازمند تکرار است.</div>
+</div><div style="margin-top:16px"><div class="cardHead"><h2>Timeline</h2><span>Recent</span></div><div class="activity"><div class="activityItem"><i class="dot"></i><div><b>تحلیل چندرشته‌ای تکمیل شد</b><p>NX-014 · ۱۳ دقیقه پیش</p></div></div><div class="activityItem"><i class="dot"></i><div><b>راه‌حل B به نسخه ۰.۳ رسید</b><p>NX-011 · ۵۲ دقیقه پیش</p></div></div><div class="activityItem"><i class="dot"></i><div><b>آزمایش دوام ثبت شد</b><p>NX-008 · ۲ ساعت پیش</p></div></div></div></div></div>
+</div></section>
+
+<section id="projects" class="screen"><div class="head"><div><span class="eyebrow">PROJECT REGISTRY</span><h1 class="heroTitle">پروژه‌های من</h1><div class="sub">هر پروژه یک پرونده مستقل با شناسه، وضعیت، تحلیل‌ها و تاریخچه خودش دارد.</div></div><button class="btn primary" onclick="newProject()">＋ ساخت پروژه</button></div><div class="card" style="margin-top:20px"><div id="allProjects"></div></div></section>
+
+<section id="analysis" class="screen"><div class="head"><div><span class="eyebrow">ENGINEERING CORE</span><h1 class="heroTitle">ساخت پرونده و تحلیل پروژه</h1><div class="sub">AI از متن، پارامترها و فایل‌های پروژه برای ساخت یک تحلیل ساختاریافته استفاده می‌کند.</div></div></div>
+<div class="workspace" style="margin-top:20px"><div class="card"><div class="tabs"><button class="tab active">مسئله</button><button class="tab">نیازمندی</button><button class="tab">پارامترها</button><button class="tab">محدودیت‌ها</button><button class="tab">فایل‌ها</button></div>
+<div class="two"><div class="field"><label>نام پروژه</label><input id="ptitle" placeholder="مثلاً مکانیزم کاهش نیروی جابه‌جایی"></div><div class="field"><label>شناسه / آدرس پروژه</label><input id="pcode" placeholder="NX-2026-015"></div></div>
+<div class="field"><label>مسئله واقعی</label><textarea id="pdesc" placeholder="چه چیزی مشکل است؟ برای چه کسی؟ کجا؟ چه زمانی؟ چه پیامدی دارد؟"></textarea></div>
+<div class="two"><div class="field"><label>هدف قابل اندازه‌گیری</label><input id="pgoal" placeholder="مثلاً کاهش نیروی ورودی حداقل ۳۰٪"></div><div class="field"><label>بودجه / زمان</label><input id="pbudget" placeholder="مثلاً کم / ۱۰ روز"></div></div>
+<div class="field"><label>محدودیت‌های سخت</label><textarea id="pcons" placeholder="ابعاد، وزن، مواد، ابزار، انرژی، ایمنی، بازار، زمان و هزینه..."></textarea></div>
+<div class="drop" onclick="document.getElementById('files').click()">＋ فایل، تصویر، نقشه یا PDF پروژه را اضافه کن<input id="files" type="file" multiple accept="image/*,.pdf,.txt,.md" onchange="filesChanged()"><div id="fileNames"></div></div>
+<div class="actions" style="margin-top:12px"><button class="btn primary" id="analyzeBtn" onclick="runAnalysis()">✦ تحلیل عمیق با AI</button><button class="btn" onclick="demoData()">نمونه داده</button></div><div id="loading" class="loading"><div class="spinner"></div>AI در حال ساخت مدل مسئله، تشخیص علوم، استخراج ریسک و تولید راه‌حل است...</div><div id="status" class="sub" style="margin-top:8px"></div></div>
+<div class="card"><div class="cardHead"><h2>Project Health</h2><span>Live</span></div><div class="score" id="ascore">—</div><div class="sub">آمادگی برای تصمیم‌گیری</div><div class="bar" style="margin:12px 0"><i id="abar"></i></div><div class="miniGrid"><div class="mini"><b id="mRisk">—</b>ریسک</div><div class="mini"><b id="mFeas">—</b>ساخت‌پذیری</div><div class="mini"><b id="mData">—</b>کفایت داده</div><div class="mini"><b id="mConf">—</b>اعتماد</div></div><div class="cardHead" style="margin-top:16px"><h2>AI Findings</h2></div><div id="findings" class="list"><div class="row">پس از تحلیل، یافته‌های اصلی اینجا نمایش داده می‌شوند.</div></div></div></div>
+</section>
+
+<section id="ai" class="screen"><div class="head"><div><span class="eyebrow">AI LAB / DECISION ENGINE</span><h1 class="heroTitle">همکار هوشمند پروژه</h1><div class="sub">پاسخ خوب کافی نیست؛ AI باید مسئله را بشناسد، فرضیات را آشکار کند و راه اقدام بدهد.</div></div></div>
+<div class="card" style="margin-top:20px;margin-bottom:12px"><div class="cardHead"><h2>AI Connection</h2><span>Secure server-side gateway</span></div><div class="miniGrid"><div class="mini"><b>● READY</b>Backend</div><div class="mini"><b>Protected</b>API Key</div><div class="mini"><b>Multidisciplinary</b>Reasoning</div><div class="mini"><b>Files</b>Project context</div></div></div><div class="grid2"><div class="card"><div class="cardHead"><h2>Project Copilot</h2><span id="aiState">Gateway</span></div><div id="chat" class="chat"><div class="bubble"><b>NEXUS AI</b><br>پروژه را انتخاب کن یا مستقیم سؤال مهندسی‌ات را بپرس. برای تحلیل واقعی، Backend متصل به مدل AI استفاده می‌شود.</div></div><div class="chatInput"><input id="chatInput" placeholder="مثلاً ریشه مشکل چیست و چه آزمایشی باید انجام دهم؟"><button class="btn primary" onclick="askAI()">ارسال</button></div></div>
+<div class="card"><div class="cardHead"><h2>AI Operations</h2><span>One click</span></div><div class="list"><button class="row" onclick="aiPreset('تحلیل ریشه‌ای مسئله و علت‌های احتمالی را با فرضیات جدا کن.')">تحلیل ریشه‌ای علت</button><button class="row" onclick="aiPreset('سه راه‌حل متفاوت تولید کن و با هزینه، ریسک، پیچیدگی و اثر مقایسه کن.')">تولید و مقایسه راه‌حل</button><button class="row" onclick="aiPreset('یک برنامه آزمایش برای اثبات عملکرد راه‌حل طراحی کن.')">طراحی آزمایش</button><button class="row" onclick="aiPreset('اطلاعات ناقص پروژه را پیدا کن و مهم‌ترین سؤال‌ها را اولویت‌بندی کن.')">کشف اطلاعات ناقص</button><button class="row" onclick="aiPreset('تحلیل را از دید مکانیک، فیزیک، مواد، برق، کنترل، انسان و اقتصاد بررسی کن.')">تحلیل چندرشته‌ای</button></div></div></div></section>
+
+<section id="compare" class="screen"><div class="head"><div><span class="eyebrow">DECISION MATRIX</span><h1 class="heroTitle">مقایسه و انتخاب</h1><div class="sub">معیارها قابل وزن‌دهی هستند و AI می‌تواند Trade-off را توضیح دهد.</div></div></div><div class="card" style="margin-top:20px"><div class="tableWrap"><table class="matrix"><tr><th>معیار</th><th>وزن</th><th>راه‌حل A</th><th>راه‌حل B</th><th>راه‌حل C</th><th>برنده</th></tr><tr><td>هزینه</td><td>20%</td><td class="good">9/10</td><td>6/10</td><td class="bad">3/10</td><td>A</td></tr><tr><td>ساخت‌پذیری</td><td>20%</td><td class="good">9/10</td><td class="good">8/10</td><td>6/10</td><td>A</td></tr><tr><td>اثر مورد انتظار</td><td>25%</td><td>7/10</td><td class="good">9/10</td><td class="good">9/10</td><td>B/C</td></tr><tr><td>ریسک</td><td>20%</td><td class="good">9/10</td><td>7/10</td><td class="bad">4/10</td><td>A</td></tr><tr><td>قابلیت تنظیم</td><td>15%</td><td>6/10</td><td class="good">9/10</td><td class="good">8/10</td><td>B</td></tr></table></div></div></section>
+
+<section id="validation" class="screen"><div class="head"><div><span class="eyebrow">VALIDATION LAB</span><h1 class="heroTitle">آزمایش و اعتبارسنجی</h1><div class="sub">هر ادعا باید به معیار قبولی، روش اندازه‌گیری و نتیجه قابل ثبت وصل شود.</div></div></div><div class="metrics"><div class="metric"><small>برنامه‌ریزی‌شده</small><strong>03</strong></div><div class="metric"><small>تکمیل‌شده</small><strong>07</strong></div><div class="metric"><small>موفق</small><strong>06</strong></div><div class="metric"><small>تکرار</small><strong>01</strong></div><div class="metric"><small>Fail</small><strong>00</strong></div></div><div class="card"><div class="list"><div class="row"><b>آزمون کاهش نیروی ورودی</b> معیار قبولی: ≥ ۳۰٪ کاهش · سه تکرار مستقل</div><div class="row"><b>آزمون دوام</b> معیار قبولی: حفظ عملکرد پس از چرخه‌های تعریف‌شده</div><div class="row"><b>آزمون کاربر</b> معیار قبولی: کاهش زمان و تلاش بدون افت کیفیت</div></div></div></section>
+
+<section id="science" class="screen"><div class="head"><div><span class="eyebrow">UNIVERSAL SCIENCE MAP</span><h1 class="heroTitle">نقشه جامع علوم</h1><div class="sub">سیستم بر اساس مسئله، علوم مرتبط را فعال می‌کند؛ نه بر اساس یک قالب ثابت.</div></div></div><div class="scienceGrid" style="margin-top:20px">
+<div class="card scienceCard"><div class="scienceIcon">Φ</div><b>فیزیک</b><p>نیرو، حرکت، انرژی، حرارت، سیالات، الکتریسیته</p></div><div class="card scienceCard"><div class="scienceIcon">∑</div><b>ریاضیات</b><p>مدل‌سازی، آمار، هندسه، بهینه‌سازی و عدم قطعیت</p></div><div class="card scienceCard"><div class="scienceIcon">⚙</div><b>مکانیک</b><p>مکانیزم، استاتیک، دینامیک، طراحی و ساخت</p></div><div class="card scienceCard"><div class="scienceIcon">⌁</div><b>برق و کنترل</b><p>سنسور، موتور، مدار، کنترل و اتوماسیون</p></div><div class="card scienceCard"><div class="scienceIcon">M</div><b>مواد</b><p>استحکام، شکست، سایش، خوردگی، دما و دوام</p></div><div class="card scienceCard"><div class="scienceIcon">AI</div><b>علوم کامپیوتر</b><p>داده، بینایی ماشین، شبیه‌سازی و هوش مصنوعی</p></div><div class="card scienceCard"><div class="scienceIcon">人</div><b>انسان و ارگونومی</b><p>تلاش، خستگی، دسترسی، ایمنی و تعامل</p></div><div class="card scienceCard"><div class="scienceIcon">$</div><b>اقتصاد و تولید</b><p>هزینه، ساخت، تعمیر، زنجیره تأمین و چرخه عمر</p></div><div class="card scienceCard"><div class="scienceIcon">E</div><b>محیط‌زیست</b><p>مصرف انرژی، پسماند، تعمیرپذیری و طول عمر</p></div><div class="card scienceCard"><div class="scienceIcon">C</div><b>شیمی</b><p>مواد، واکنش، خوردگی، پوشش و فرایند</p></div><div class="card scienceCard"><div class="scienceIcon">B</div><b>زیست</b><p>الهام زیستی، سامانه‌های انسانی و محدودیت‌های زیستی</p></div><div class="card scienceCard"><div class="scienceIcon">S</div><b>علوم سیستم</b><p>تعامل اجزا، بازخورد، پایداری و پیچیدگی</p></div>
+</div></section>
+
+<section id="resources" class="screen"><div class="head"><div><span class="eyebrow">KNOWLEDGE & SOURCES</span><h1 class="heroTitle">مرکز منابع و دانش</h1><div class="sub">منابع، استانداردها، دیتاشیت‌ها، مقالات و مستندات پروژه را یکجا مدیریت و به تحلیل AI متصل کن.</div></div><button class="btn primary" onclick="toast('افزودن منبع در نسخه بعدی فعال می‌شود')">＋ افزودن منبع</button></div>
+<div class="metrics"><div class="metric"><small>منابع پروژه</small><strong>24</strong><em>قابل جستجو</em></div><div class="metric"><small>استانداردها</small><strong>08</strong><em>مرتبط</em></div><div class="metric"><small>دیتاشیت</small><strong>11</strong><em>ثبت‌شده</em></div><div class="metric"><small>منابع معتبر</small><strong>91%</strong><em>اعتماد بالا</em></div><div class="metric"><small>خلأ دانشی</small><strong>03</strong><em style="color:var(--warn)">نیازمند بررسی</em></div></div>
+<div class="grid3" style="margin-top:14px"><div class="card"><b>اعتبار منبع</b><div class="score" style="font-size:34px;margin-top:8px">91</div><div class="sub">امتیاز کیفیت منابع</div></div><div class="card"><b>پوشش مسئله</b><div class="score" style="font-size:34px;margin-top:8px">78</div><div class="sub">درصد بخش‌های دارای منبع</div></div><div class="card"><b>خلأ دانش</b><div class="score" style="font-size:34px;margin-top:8px">03</div><div class="sub">سؤال‌هایی که باید بررسی شوند</div></div></div>
+<div class="grid2" style="margin-top:14px"><div class="card"><div class="cardHead"><h2>کتابخانه منابع</h2><span>Searchable</span></div><div class="field"><input placeholder="جستجوی استاندارد، مقاله، دیتاشیت، کتاب..."></div><div class="list"><div class="row"><b>📘 استانداردها و الزامات</b><small>استانداردهای مرتبط با ایمنی، طراحی و آزمون</small></div><div class="row"><b>📄 مقالات و منابع علمی</b><small>منابع علمی قابل اتصال به تحلیل پروژه</small></div><div class="row"><b>⚙ دیتاشیت و مشخصات قطعات</b><small>پارامترهای فنی قطعات و مواد</small></div><div class="row"><b>🧾 مستندات پروژه</b><small>نقشه‌ها، گزارش‌ها، نتایج آزمایش و نسخه‌ها</small></div></div></div>
+<div class="card"><div class="cardHead"><h2>AI Knowledge Check</h2><span>پیشنهاد خودکار</span></div><div class="list"><div class="row"><b>۳ منبع برای مسئله فعلی کم است</b>AI باید قبل از تصمیم نهایی منابع بیشتری را بررسی کند.</div><div class="row"><b>۲ پارامتر بدون مرجع</b>مقادیر انتخاب‌شده نیازمند منبع یا اندازه‌گیری هستند.</div><div class="row"><b>استاندارد ایمنی را بررسی کن</b>قبل از ساخت نمونه نهایی، الزامات ایمنی را جداگانه تأیید کن.</div></div></div></div></section>
+
+<section id="settings" class="screen"><div class="head"><div><span class="eyebrow">SYSTEM CONTROL</span><h1 class="heroTitle">تنظیمات سیستم</h1><div class="sub">تنظیمات پروژه، مدل AI، خروجی و ظاهر نرم‌افزار.</div></div></div><div class="grid2" style="margin-top:20px"><div class="card"><div class="cardHead"><h2>AI Gateway</h2><span>Backend</span></div><div class="field"><label>مدل</label><select><option>مدل پیش‌فرض Backend</option><option>مدل سریع</option><option>مدل عمیق</option></select></div><div class="field"><label>سطح تحلیل</label><select><option>جامع</option><option>استاندارد</option><option>سریع</option></select></div><div class="field"><label>رفتار خروجی</label><select><option>تحلیلی + اجرایی</option><option>فقط تحلیلی</option><option>خلاصه مدیریتی</option></select></div></div><div class="card"><div class="cardHead"><h2>Project Defaults</h2><span>Global</span></div><div class="list"><div class="row"><b>ایمنی</b>همیشه به عنوان معیار مستقل بررسی شود.</div><div class="row"><b>هزینه</b>قیمت قطعات و هزینه ساخت در تصمیم‌گیری لحاظ شود.</div><div class="row"><b>ساخت‌پذیری</b>راه‌حل‌های قابل ساخت با ابزار در دسترس اولویت بگیرند.</div><div class="row"><b>عدم قطعیت</b>فرضیات قطعی از داده واقعی جدا شوند.</div></div></div></div></section>
+
+<section id="reports" class="screen"><div class="head"><div><span class="eyebrow">REPORT CENTER</span><h1 class="heroTitle">مرکز گزارش</h1><div class="sub">گزارش‌های پروژه، تصمیم‌ها، آزمایش‌ها و نسخه‌های طراحی.</div></div><button class="btn" onclick="window.print()">چاپ / PDF</button></div><div class="grid3" style="margin-top:20px"><div class="card"><b>Executive Report</b><p class="sub">خلاصه مسئله، نتیجه AI و تصمیم پیشنهادی.</p></div><div class="card"><b>Engineering Report</b><p class="sub">پارامترها، فرضیات، راه‌حل‌ها و ریسک‌ها.</p></div><div class="card"><b>Validation Report</b><p class="sub">آزمایش‌ها، معیارها و نتایج ثبت‌شده.</p></div></div></section>
+
+</div></main></div><div id="moreMenu" class="moreMenu">
+ <div class="menuTitle">NEXUS COMMAND</div>
+ <div class="menuGroup">مدیریت پروژه</div>
+ <button onclick="show('dashboard');closeMore()">⌂ داشبورد</button>
+ <button onclick="show('projects');closeMore()">▣ پروژه‌های من</button>
+ <button onclick="newProject();closeMore()">＋ پروژه جدید</button>
+ <div class="menuGroup">هوش و تحلیل</div>
+ <button onclick="show('ai');closeMore()">✦ AI Lab / Copilot</button>
+ <button onclick="show('analysis');closeMore()">◎ تحلیل عمیق پروژه</button>
+ <button onclick="show('compare');closeMore()">⇄ مقایسه راه‌حل‌ها</button>
+ <button onclick="show('science');closeMore()">◇ نقشه علوم</button>
+ <div class="menuGroup">مهندسی و اعتبارسنجی</div>
+ <button onclick="show('validation');closeMore()">✓ آزمایش و اعتبارسنجی</button>
+ <button onclick="show('resources');closeMore()">▥ منابع و استانداردها</button>
+ <button onclick="toast('ماژول محاسبات در حال اتصال به موتور محاسباتی است');closeMore()">∑ محاسبات مهندسی</button>
+ <button onclick="toast('ماژول شبیه‌سازی در معماری سیستم تعریف شده است');closeMore()">◈ شبیه‌سازی و سناریو</button>
+ <button onclick="toast('ماژول طراحی و نمونه‌سازی آماده توسعه است');closeMore()">⌘ طراحی و نمونه‌سازی</button>
+ <button onclick="show('reports');closeMore()">▤ گزارش و خروجی</button>
+ <div class="menuGroup">سیستم</div>
+ <button onclick="show('settings');closeMore()">⚙ تنظیمات</button>
+ <button onclick="toast('راهنما در هسته سیستم قرار دارد');closeMore()">؟ راهنما</button>
+</div><div id="menuOverlay" onclick="closeMore()"></div><div id="toast" class="toast"></div>
+<script>
+const projects=[
+{name:"سامانه کاهش نیروی جابه‌جایی",code:"NX-2026-014",status:"در حال تحلیل",progress:78,tags:["مکانیک","ارگونومی","مواد"],desc:"طراحی مکانیزم کم‌هزینه برای کاهش نیروی لازم کاربر."},
+{name:"پایه ماژولار ابزار کارگاه",code:"NX-2026-011",status:"نمونه اولیه",progress:61,tags:["ساخت","طراحی","ایمنی"],desc:"افزایش نظم و دسترسی ابزار با ساختار قابل تنظیم."},
+{name:"بهینه‌سازی اتلاف انرژی",code:"NX-2026-008",status:"آزمایش",progress:89,tags:["انرژی","حرارت"],desc:"اندازه‌گیری و کاهش اتلاف یک سامانه موجود."},
+{name:"وسیله کمکی ارگونومیک",code:"NX-2026-004",status:"تکمیل",progress:100,tags:["انسان","مکانیک"],desc:"کاهش تلاش در یک فعالیت تکراری روزمره."}];
+function renderProjects(list=projects){let h=list.map(p=>`<div class="project"><div><span class="projectName">${p.name}</span><span class="code">${p.code}</span><div class="desc">${p.desc}</div><div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div><div class="progress"><i style="width:${p.progress}%"></i></div></div><div><span class="status">${p.status}</span><br><button class="tinyBtn" onclick="openProject('${p.code}')">باز کردن</button></div></div>`).join("");document.getElementById("projectList").innerHTML=h;document.getElementById("allProjects").innerHTML=h}
+function filterProjects(){let q=document.getElementById("search").value.toLowerCase();renderProjects(projects.filter(p=>(p.name+p.code+p.tags.join(" ")).toLowerCase().includes(q)))}
+const names={dashboard:"Dashboard",projects:"Projects",analysis:"Engineering Analysis",ai:"AI Lab",compare:"Decision Matrix",validation:"Validation Lab",science:"Science Map",reports:"Report Center",resources:"Knowledge & Sources",settings:"System Control"};
+function show(id,el){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");document.getElementById("crumb").textContent=names[id]||id;window.scrollTo({top:0,behavior:"smooth"})}
+function newProject(){show("analysis");document.getElementById("ptitle").focus();toast("پرونده پروژه جدید آماده شد")}
+function openProject(code){show("analysis");let p=projects.find(x=>x.code===code);if(p){document.getElementById("ptitle").value=p.name;document.getElementById("pcode").value=p.code;document.getElementById("pdesc").value=p.desc}toast("پروژه "+code+" باز شد")}
+function demoData(){document.getElementById("ptitle").value="سامانه کاهش نیروی جابه‌جایی";document.getElementById("pcode").value="NX-2026-015";document.getElementById("pdesc").value="کاربر برای جابه‌جایی بار در کارگاه به نیروی زیادی نیاز دارد و کنترل حرکت نیز دشوار است.";document.getElementById("pgoal").value="کاهش حداقل 30 درصدی نیروی ورودی بدون افزایش خطر.";document.getElementById("pbudget").value="کم / 10 روز";document.getElementById("pcons").value="قطعات قابل تهیه در بازار، وزن کم، ساخت با ابزار معمولی، ایمنی و قابلیت تعمیر."}
+function filesChanged(){let f=[...document.getElementById("files").files];document.getElementById("fileNames").textContent=f.length?f.map(x=>x.name).join(" · "):"فایلی انتخاب نشده است"}
+function localFallback(d){let score=Math.min(96,62+(d.goal.length>15?12:0)+(d.cons.length>30?10:0)+(d.desc.length>50?10:0));return{score,risk:"متوسط",feasibility:"خوب",data:"متوسط",confidence:"اولیه",findings:["نیازمندی‌ها باید عددی شوند.","پارامترهای فیزیکی کلیدی هنوز مشخص نیستند.","راه‌حل باید با آزمایش قبل/بعد اعتبارسنجی شود."]}}
+async function runAnalysis(){let d={title:ptitle.value,code:pcode.value,desc:pdesc.value,goal:pgoal.value,budget:pbudget.value,cons:pcons.value};if(!d.title||!d.desc||!d.goal){status.textContent="نام پروژه، مسئله و هدف را کامل کن.";return}loading.style.display="block";analyzeBtn.disabled=true;status.textContent="";let fd=new FormData;Object.entries(d).forEach(([k,v])=>fd.append(k,v));[...files.files].forEach(f=>fd.append("files",f));try{let r=await fetch("/api/analyze",{method:"POST",body:fd});if(!r.ok)throw Error("backend");let o=await r.json();if(o.error)throw Error(o.error);apply(o);status.textContent="✓ تحلیل واقعی AI دریافت شد."}catch(e){let o=localFallback(d);apply(o);status.textContent="Backend در دسترس نیست؛ پیش‌تحلیل محلی نمایش داده شد. برای AI واقعی، پروژه را با سرور اجرا کن."}finally{loading.style.display="none";analyzeBtn.disabled=false}}
+function apply(o){let s=o.score||70;ascore.textContent=s;abar.style.width=s+"%";mRisk.textContent=o.risk||"متوسط";mFeas.textContent=o.feasibility||"خوب";mData.textContent=o.data||"متوسط";mConf.textContent=o.confidence||"اولیه";findings.innerHTML=(o.findings||[]).map(x=>`<div class="row">✦ ${x}</div>`).join("")}
+function aiPreset(t){chatInput.value=t;askAI()}
+async function askAI(){let q=chatInput.value.trim();if(!q)return;chat.innerHTML+=`<div class="bubble me">${q}</div>`;chatInput.value="";let b=document.createElement("div");b.className="bubble";b.textContent="در حال تحلیل...";chat.appendChild(b);chat.scrollTop=chat.scrollHeight;try{let r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:q})});if(!r.ok)throw Error();let o=await r.json();b.innerHTML="<b>NEXUS AI</b><br>"+(o.answer||"پاسخی دریافت نشد.")}catch(e){b.innerHTML="<b>NEXUS AI</b><br>برای پاسخ واقعی AI، Backend و کلید API باید روی سرور تنظیم شده باشند. در این نسخه مسیر اتصال آماده است."}}
+function toggleMoreMenu(){let m=document.getElementById("moreMenu");m.classList.toggle("open")}function closeMore(){document.getElementById("moreMenu").classList.remove("open")}
+function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
+renderProjects();
+</script></body></html>
