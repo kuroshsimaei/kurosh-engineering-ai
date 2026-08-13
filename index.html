@@ -1,1 +1,2232 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>NEXUS AI — Engineering Workspace</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #eef2f4;
+      color: #172630;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid #dfe6e9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-actions,
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid #d8e1e5;
+      background: #ffffff;
+      color: #172630;
+      border-radius: 10px;
+      padding: 8px 13px;
+      font-size: 12px;
+    }
+
+    .btn:hover {
+      background: #f1f5f6;
+    }
+
+    .btn-primary {
+      background: #102f40;
+      color: #ffffff;
+      border-color: #102f40;
+    }
+
+    .btn-primary:hover {
+      background: #173f53;
+    }
+
+    .status {
+      color: #4c7b61;
+      background: #edf5f0;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 9px;
+    }
+
+    .page {
+      max-width: 1450px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .eyebrow {
+      font-size: 9px;
+      color: #4e8399;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .title {
+      font-size: 30px;
+      margin: 5px 0;
+    }
+
+    .muted {
+      color: #74838b;
+      font-size: 11px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dfe6e9;
+      border-radius: 18px;
+      padding: 17px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .metric {
+      background: #ffffff;
+      border: 1px solid #dfe6e9;
+      border-radius: 16px;
+      padding: 13px;
+    }
+
+    .metric small {
+      display: block;
+      color: #74838b;
+      font-size: 9px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 21px;
+      margin: 3px 0;
+    }
+
+    .project {
+      padding: 13px 0;
+      border-bottom: 1px solid #e5eaec;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+    }
+
+    .project:last-child {
+      border-bottom: 0;
+    }
+
+    .project-name {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #edf3f5;
+      border-radius: 20px;
+      padding: 3px 7px;
+      font-size: 8px;
+      margin: 5px 3px 0 0;
+    }
+
+    .progress {
+      height: 5px;
+      background: #edf1f3;
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress i {
+      display: block;
+      height: 100%;
+      background: #4e8399;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #dfe6e9;
+      margin-bottom: 14px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      border: 0;
+      background: none;
+      padding: 9px 12px;
+      font-size: 10px;
+      color: #74838b;
+    }
+
+    .tab.active {
+      color: #102f40;
+      border-bottom: 2px solid #102f40;
+      font-weight: bold;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .field {
+      margin-bottom: 11px;
+    }
+
+    .field label {
+      display: block;
+      color: #74838b;
+      font-size: 9px;
+      margin-bottom: 4px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid #d9e2e5;
+      border-radius: 10px;
+      padding: 9px;
+      background: #ffffff;
+      color: #172630;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #4e8399;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .dropzone {
+      border: 1px dashed #aebfc6;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: #74838b;
+      font-size: 10px;
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .score {
+      font-size: 60px;
+      font-weight: bold;
+    }
+
+    .bar {
+      height: 8px;
+      background: #e9eff1;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: #4e8399;
+      transition: width 0.5s ease;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini {
+      background: #f0f4f5;
+      border-radius: 10px;
+      padding: 9px;
+      font-size: 9px;
+      color: #74838b;
+    }
+
+    .mini b {
+      display: block;
+      color: #172630;
+      font-size: 12px;
+    }
+
+    .row {
+      background: #f1f5f6;
+      border-radius: 11px;
+      padding: 10px;
+      font-size: 10px;
+      margin: 7px 0;
+    }
+
+    .chat {
+      height: 360px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .bubble {
+      padding: 10px;
+      background: #eef3f4;
+      border-radius: 12px;
+      margin: 7px 0;
+      font-size: 10px;
+      max-width: 90%;
+    }
+
+    .bubble.me {
+      background: #102f40;
+      color: white;
+      margin-right: 20%;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: 1px solid #d9e2e5;
+      border-radius: 10px;
+      padding: 9px;
+      outline: none;
+    }
+
+    .science-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .science-grid .card {
+      min-height: 120px;
+    }
+
+    .menu {
+      position: fixed;
+      top: 60px;
+      right: 15px;
+      width: 300px;
+      background: #ffffff;
+      border: 1px solid #dfe6e9;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 20px 50px #0002;
+      display: none;
+      z-index: 1000;
+    }
+
+    .menu.open {
+      display: block;
+    }
+
+    .menu button {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: none;
+      text-align: right;
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    .menu button:hover {
+      background: #eef3f4;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #102f40;
+      color: white;
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 10px;
+      display: none;
+      z-index: 2000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #dfe6e9;
+      padding: 10px;
+      text-align: right;
+    }
+
+    th {
+      color: #74838b;
+      font-size: 9px;
+    }
+
+    @media (max-width: 900px) {
+      .metrics {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .science-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 12px;
+      }
+
+      .metrics,
+      .grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .title {
+        font-size: 24px;
+      }
+
+      .topbar .status {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <button class="btn" onclick="toggleMenu()">
+    ☰
+  </button>
+
+  <div class="muted">
+    NEXUS /
+    <b id="breadcrumb">Dashboard</b>
+  </div>
+
+  <div class="top-actions">
+    <span class="status">● Frontend Ready</span>
+
+    <button class="btn" onclick="newProject()">
+      ＋ پروژه
+    </button>
+
+    <button class="btn btn-primary" onclick="showScreen('ai')">
+      ✦ AI Lab
+    </button>
+  </div>
+
+</header>
+
+<main class="page">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="screen active">
+
+  <div class="head">
+
+    <div>
+      <span class="eyebrow">COMMAND CENTER</span>
+
+      <h1 class="title">
+        مرکز فرمان پروژه‌های هوشمند
+      </h1>
+
+      <div class="muted">
+        مدیریت پروژه، تحلیل، اعتبارسنجی و گزارش در یک محیط واحد.
+      </div>
+    </div>
+
+    <div class="actions">
+
+      <button class="btn" onclick="showScreen('projects')">
+        همه پروژه‌ها
+      </button>
+
+      <button class="btn btn-primary" onclick="newProject()">
+        ＋ پروژه جدید
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+
+    <span class="eyebrow">
+      NEXUS WORKSPACE
+    </span>
+
+    <h2>
+      از مسئله تا تصمیم
+    </h2>
+
+    <div class="muted">
+      نسخه Static برای GitHub Pages؛
+      قابلیت‌های سمت کاربر بدون Backend کار می‌کنند.
+    </div>
+
+  </div>
+
+  <div class="metrics">
+
+    <div class="metric">
+      <small>پروژه‌ها</small>
+      <strong id="projectCount">04</strong>
+    </div>
+
+    <div class="metric">
+      <small>تحلیل‌ها</small>
+      <strong>27</strong>
+    </div>
+
+    <div class="metric">
+      <small>تصمیم باز</small>
+      <strong>06</strong>
+    </div>
+
+    <div class="metric">
+      <small>ریسک مهم</small>
+      <strong>02</strong>
+    </div>
+
+    <div class="metric">
+      <small>Storage</small>
+      <strong>LOCAL</strong>
+    </div>
+
+  </div>
+
+  <div class="grid-2">
+
+    <div class="card">
+
+      <h3>
+        پروژه‌های اخیر
+      </h3>
+
+      <div id="projectList"></div>
+
+    </div>
+
+    <div class="card">
+
+      <h3>
+        وضعیت سیستم
+      </h3>
+
+      <div class="row">
+        <b>✓ Frontend</b>
+        <br>
+        فرم‌ها، دکمه‌ها و تحلیل محلی فعال هستند.
+      </div>
+
+      <div class="row">
+        <b>✓ Storage</b>
+        <br>
+        پروژه‌ها در localStorage ذخیره می‌شوند.
+      </div>
+
+      <div class="row">
+        <b>⚠ Real AI</b>
+        <br>
+        برای مدل واقعی باید Backend امن متصل شود.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="screen">
+
+  <div class="head">
+
+    <div>
+      <span class="eyebrow">
+        PROJECT REGISTRY
+      </span>
+
+      <h1 class="title">
+        پروژه‌های من
+      </h1>
+    </div>
+
+    <button class="btn btn-primary" onclick="newProject()">
+      ＋ ساخت پروژه
+    </button>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+
+    <div id="allProjects"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ANALYSIS -->
+
+<section id="analysis" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        ENGINEERING CORE
+      </span>
+
+      <h1 class="title">
+        ساخت پرونده و تحلیل پروژه
+      </h1>
+
+      <div class="muted">
+        داده را وارد کن و تحلیل اولیه را در مرورگر اجرا کن.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="grid-2" style="margin-top:18px">
+
+    <div class="card">
+
+      <div class="tabs">
+
+        <button class="tab active">
+          مسئله
+        </button>
+
+        <button class="tab">
+          نیازمندی
+        </button>
+
+        <button class="tab">
+          پارامترها
+        </button>
+
+        <button class="tab">
+          فایل‌ها
+        </button>
+
+      </div>
+
+      <div class="two-columns">
+
+        <div class="field">
+
+          <label>
+            نام پروژه
+          </label>
+
+          <input
+            id="projectTitle"
+            placeholder="مثلاً مکانیزم کاهش نیرو"
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            شناسه
+          </label>
+
+          <input
+            id="projectCode"
+            placeholder="NX-2026-015"
+          >
+
+        </div>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          مسئله واقعی
+        </label>
+
+        <textarea
+          id="projectDescription"
+          placeholder="مشکل چیست؟ چه پیامدی دارد؟"
+        ></textarea>
+
+      </div>
+
+      <div class="two-columns">
+
+        <div class="field">
+
+          <label>
+            هدف قابل اندازه‌گیری
+          </label>
+
+          <input
+            id="projectGoal"
+            placeholder="مثلاً کاهش نیرو حداقل ۳۰٪"
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            بودجه / زمان
+          </label>
+
+          <input
+            id="projectBudget"
+            placeholder="کم / ۱۰ روز"
+          >
+
+        </div>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          محدودیت‌ها
+        </label>
+
+        <textarea
+          id="projectConstraints"
+          placeholder="ابعاد، وزن، مواد، ابزار، انرژی، ایمنی، هزینه..."
+        ></textarea>
+
+      </div>
+
+      <div
+        class="dropzone"
+        onclick="document.getElementById('projectFiles').click()"
+      >
+
+        ＋ فایل، تصویر یا PDF
+
+        <input
+          id="projectFiles"
+          type="file"
+          multiple
+          onchange="showFileNames()"
+        >
+
+        <div id="fileNames"></div>
+
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+
+        <button
+          class="btn btn-primary"
+          onclick="analyzeProject()"
+        >
+          ✦ تحلیل پروژه
+        </button>
+
+        <button
+          class="btn"
+          onclick="loadDemo()"
+        >
+          نمونه داده
+        </button>
+
+        <button
+          class="btn"
+          onclick="saveProject()"
+        >
+          ذخیره پروژه
+        </button>
+
+      </div>
+
+      <div
+        id="analysisStatus"
+        class="muted"
+        style="margin-top:10px"
+      ></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        Project Health
+      </h3>
+
+      <div
+        class="score"
+        id="analysisScore"
+      >
+        —
+      </div>
+
+      <div class="muted">
+        آمادگی تصمیم‌گیری
+      </div>
+
+      <div
+        class="bar"
+        style="margin:12px 0"
+      >
+        <i id="analysisBar"></i>
+      </div>
+
+      <div class="mini-grid">
+
+        <div class="mini">
+          <b id="riskValue">—</b>
+          ریسک
+        </div>
+
+        <div class="mini">
+          <b id="feasibilityValue">—</b>
+          ساخت‌پذیری
+        </div>
+
+        <div class="mini">
+          <b id="dataValue">—</b>
+          کفایت داده
+        </div>
+
+        <div class="mini">
+          <b id="confidenceValue">—</b>
+          اعتماد
+        </div>
+
+      </div>
+
+      <h3>
+        یافته‌ها
+      </h3>
+
+      <div id="findings">
+
+        <div class="row">
+          بعد از تحلیل نمایش داده می‌شود.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- AI -->
+
+<section id="ai" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        AI LAB
+      </span>
+
+      <h1 class="title">
+        همکار هوشمند پروژه
+      </h1>
+
+      <div class="muted">
+        رابط چت و پاسخ محلی فعال است.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    class="grid-2"
+    style="margin-top:18px"
+  >
+
+    <div class="card">
+
+      <h3>
+        Project Copilot
+      </h3>
+
+      <div
+        id="chat"
+        class="chat"
+      >
+
+        <div class="bubble">
+
+          <b>NEXUS AI</b>
+
+          <br>
+
+          سؤالت را بپرس.
+          در حالت Static پاسخ راهنمای محلی ارائه می‌دهم.
+
+        </div>
+
+      </div>
+
+      <div class="chat-input">
+
+        <input
+          id="chatInput"
+          placeholder="مثلاً سه راه‌حل پیشنهاد بده"
+          onkeydown="handleChatKey(event)"
+        >
+
+        <button
+          class="btn btn-primary"
+          onclick="askAI()"
+        >
+          ارسال
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        دستورهای سریع
+      </h3>
+
+      <div
+        class="row"
+        onclick="quickPrompt('تحلیل ریشه‌ای مسئله را انجام بده.')"
+        style="cursor:pointer"
+      >
+        تحلیل ریشه‌ای
+      </div>
+
+      <div
+        class="row"
+        onclick="quickPrompt('سه راه‌حل متفاوت تولید و مقایسه کن.')"
+        style="cursor:pointer"
+      >
+        مقایسه راه‌حل
+      </div>
+
+      <div
+        class="row"
+        onclick="quickPrompt('یک برنامه آزمایش طراحی کن.')"
+        style="cursor:pointer"
+      >
+        طراحی آزمایش
+      </div>
+
+      <div
+        class="row"
+        onclick="quickPrompt('اطلاعات ناقص پروژه را پیدا کن.')"
+        style="cursor:pointer"
+      >
+        کشف اطلاعات ناقص
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- COMPARE -->
+
+<section id="compare" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        DECISION MATRIX
+      </span>
+
+      <h1 class="title">
+        مقایسه و انتخاب
+      </h1>
+
+    </div>
+
+  </div>
+
+  <div
+    class="card"
+    style="margin-top:18px;overflow:auto"
+  >
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>معیار</th>
+          <th>وزن</th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>هزینه</td>
+          <td>20%</td>
+          <td>9/10</td>
+          <td>6/10</td>
+          <td>3/10</td>
+        </tr>
+
+        <tr>
+          <td>ساخت‌پذیری</td>
+          <td>20%</td>
+          <td>9/10</td>
+          <td>8/10</td>
+          <td>6/10</td>
+        </tr>
+
+        <tr>
+          <td>اثر</td>
+          <td>25%</td>
+          <td>7/10</td>
+          <td>9/10</td>
+          <td>9/10</td>
+        </tr>
+
+        <tr>
+          <td>ریسک</td>
+          <td>20%</td>
+          <td>9/10</td>
+          <td>7/10</td>
+          <td>4/10</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- VALIDATION -->
+
+<section id="validation" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        VALIDATION LAB
+      </span>
+
+      <h1 class="title">
+        آزمایش و اعتبارسنجی
+      </h1>
+
+    </div>
+
+  </div>
+
+  <div class="metrics">
+
+    <div class="metric">
+      <small>برنامه‌ریزی‌شده</small>
+      <strong>03</strong>
+    </div>
+
+    <div class="metric">
+      <small>تکمیل‌شده</small>
+      <strong>07</strong>
+    </div>
+
+    <div class="metric">
+      <small>موفق</small>
+      <strong>06</strong>
+    </div>
+
+    <div class="metric">
+      <small>تکرار</small>
+      <strong>01</strong>
+    </div>
+
+    <div class="metric">
+      <small>Fail</small>
+      <strong>00</strong>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="row">
+
+      <b>
+        آزمون کاهش نیرو
+      </b>
+
+      <br>
+
+      معیار قبولی: حداقل ۳۰٪ کاهش و سه تکرار مستقل.
+
+    </div>
+
+    <div class="row">
+
+      <b>
+        آزمون دوام
+      </b>
+
+      <br>
+
+      معیار قبولی: حفظ عملکرد پس از چرخه‌های تعریف‌شده.
+
+    </div>
+
+    <div class="row">
+
+      <b>
+        آزمون کاربر
+      </b>
+
+      <br>
+
+      معیار قبولی: کاهش تلاش بدون افت کیفیت.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SCIENCE -->
+
+<section id="science" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        UNIVERSAL SCIENCE MAP
+      </span>
+
+      <h1 class="title">
+        نقشه جامع علوم
+      </h1>
+
+    </div>
+
+  </div>
+
+  <div class="science-grid">
+
+    <div class="card">
+      <b>Φ فیزیک</b>
+      <p class="muted">نیرو، حرکت، انرژی و سیالات</p>
+    </div>
+
+    <div class="card">
+      <b>∑ ریاضیات</b>
+      <p class="muted">مدل‌سازی، آمار و بهینه‌سازی</p>
+    </div>
+
+    <div class="card">
+      <b>⚙ مکانیک</b>
+      <p class="muted">استاتیک، دینامیک و مکانیزم</p>
+    </div>
+
+    <div class="card">
+      <b>⌁ برق و کنترل</b>
+      <p class="muted">سنسور، موتور و کنترل</p>
+    </div>
+
+    <div class="card">
+      <b>M مواد</b>
+      <p class="muted">استحکام، شکست و دوام</p>
+    </div>
+
+    <div class="card">
+      <b>AI علوم کامپیوتر</b>
+      <p class="muted">داده و شبیه‌سازی</p>
+    </div>
+
+    <div class="card">
+      <b>人 ارگونومی</b>
+      <p class="muted">تلاش، خستگی و ایمنی</p>
+    </div>
+
+    <div class="card">
+      <b>$ اقتصاد</b>
+      <p class="muted">هزینه، تولید و چرخه عمر</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- RESOURCES -->
+
+<section id="resources" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        KNOWLEDGE
+      </span>
+
+      <h1 class="title">
+        مرکز منابع و دانش
+      </h1>
+
+    </div>
+
+  </div>
+
+  <div
+    class="grid-3"
+    style="margin-top:18px"
+  >
+
+    <div class="card">
+
+      <b>
+        کتابخانه منابع
+      </b>
+
+      <p class="muted">
+        مقاله، استاندارد، دیتاشیت و مستندات.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <b>
+        پوشش مسئله
+      </b>
+
+      <div
+        class="score"
+        style="font-size:38px"
+      >
+        78%
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <b>
+        خلأ دانش
+      </b>
+
+      <div
+        class="score"
+        style="font-size:38px"
+      >
+        03
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section id="reports" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        REPORT CENTER
+      </span>
+
+      <h1 class="title">
+        مرکز گزارش
+      </h1>
+
+      <div class="muted">
+        گزارش فعلی را می‌توان چاپ یا به PDF ذخیره کرد.
+      </div>
+
+    </div>
+
+    <button
+      class="btn"
+      onclick="window.print()"
+    >
+      چاپ / PDF
+    </button>
+
+  </div>
+
+  <div
+    class="grid-3"
+    style="margin-top:18px"
+  >
+
+    <div class="card">
+      <b>Executive Report</b>
+      <p class="muted">
+        خلاصه مسئله و نتیجه تحلیل.
+      </p>
+    </div>
+
+    <div class="card">
+      <b>Engineering Report</b>
+      <p class="muted">
+        پارامترها و فرضیات.
+      </p>
+    </div>
+
+    <div class="card">
+      <b>Validation Report</b>
+      <p class="muted">
+        آزمایش‌ها و نتایج.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="screen">
+
+  <div class="head">
+
+    <div>
+
+      <span class="eyebrow">
+        SYSTEM CONTROL
+      </span>
+
+      <h1 class="title">
+        تنظیمات سیستم
+      </h1>
+
+    </div>
+
+  </div>
+
+  <div
+    class="grid-2"
+    style="margin-top:18px"
+  >
+
+    <div class="card">
+
+      <div class="field">
+
+        <label>
+          سطح تحلیل
+        </label>
+
+        <select>
+          <option>جامع</option>
+          <option>استاندارد</option>
+          <option>سریع</option>
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          خروجی
+        </label>
+
+        <select>
+          <option>تحلیلی + اجرایی</option>
+          <option>خلاصه مدیریتی</option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="row">
+        <b>ایمنی</b>
+        <br>
+        معیار مستقل تصمیم‌گیری.
+      </div>
+
+      <div class="row">
+        <b>عدم قطعیت</b>
+        <br>
+        فرضیات از داده واقعی جدا شوند.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- MENU -->
+
+<div
+  id="menu"
+  class="menu"
+>
+
+  <b>
+    NEXUS COMMAND
+  </b>
+
+  <hr>
+
+  <button onclick="showScreen('dashboard')">
+    ⌂ داشبورد
+  </button>
+
+  <button onclick="showScreen('projects')">
+    ▣ پروژه‌ها
+  </button>
+
+  <button onclick="newProject()">
+    ＋ پروژه جدید
+  </button>
+
+  <button onclick="showScreen('ai')">
+    ✦ AI Lab
+  </button>
+
+  <button onclick="showScreen('analysis')">
+    ◎ تحلیل پروژه
+  </button>
+
+  <button onclick="showScreen('compare')">
+    ⇄ مقایسه راه‌حل‌ها
+  </button>
+
+  <button onclick="showScreen('science')">
+    ◇ نقشه علوم
+  </button>
+
+  <button onclick="showScreen('validation')">
+    ✓ اعتبارسنجی
+  </button>
+
+  <button onclick="showScreen('resources')">
+    ▥ منابع
+  </button>
+
+  <button onclick="showScreen('reports')">
+    ▤ گزارش
+  </button>
+
+  <button onclick="showScreen('settings')">
+    ⚙ تنظیمات
+  </button>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+/* =========================
+   PROJECT DATABASE
+========================= */
+
+const defaultProjects = [
+
+  {
+    name: "سامانه کاهش نیروی جابه‌جایی",
+    code: "NX-2026-014",
+    status: "در حال تحلیل",
+    progress: 78,
+    tags: ["مکانیک", "ارگونومی"],
+    desc: "طراحی مکانیزم کم‌هزینه برای کاهش نیروی لازم کاربر."
+  },
+
+  {
+    name: "پایه ماژولار ابزار کارگاه",
+    code: "NX-2026-011",
+    status: "نمونه اولیه",
+    progress: 61,
+    tags: ["ساخت", "ایمنی"],
+    desc: "افزایش نظم و دسترسی ابزار با ساختار قابل تنظیم."
+  },
+
+  {
+    name: "بهینه‌سازی اتلاف انرژی",
+    code: "NX-2026-008",
+    status: "آزمایش",
+    progress: 89,
+    tags: ["انرژی", "حرارت"],
+    desc: "اندازه‌گیری و کاهش اتلاف یک سامانه موجود."
+  },
+
+  {
+    name: "وسیله کمکی ارگونومیک",
+    code: "NX-2026-004",
+    status: "تکمیل",
+    progress: 100,
+    tags: ["انسان", "مکانیک"],
+    desc: "کاهش تلاش در یک فعالیت تکراری روزمره."
+  }
+
+];
+
+
+let projects =
+  JSON.parse(
+    localStorage.getItem("nexus_projects")
+  ) || defaultProjects;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g, char => {
+
+      const map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      };
+
+      return map[char];
+
+    });
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+const screenTitles = {
+
+  dashboard: "Dashboard",
+  projects: "Projects",
+  analysis: "Engineering Analysis",
+  ai: "AI Lab",
+  compare: "Decision Matrix",
+  validation: "Validation Lab",
+  science: "Science Map",
+  resources: "Knowledge & Sources",
+  reports: "Report Center",
+  settings: "System Control"
+
+};
+
+
+function showScreen(id) {
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen => {
+      screen.classList.remove("active");
+    });
+
+  const target = $(id);
+
+  if (!target) {
+    return;
+  }
+
+  target.classList.add("active");
+
+  $("breadcrumb").textContent =
+    screenTitles[id] || id;
+
+  closeMenu();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function toggleMenu() {
+
+  $("menu").classList.toggle("open");
+
+}
+
+
+function closeMenu() {
+
+  $("menu").classList.remove("open");
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message) {
+
+  const element = $("toast");
+
+  element.textContent = message;
+
+  element.style.display = "block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(() => {
+
+      element.style.display = "none";
+
+    }, 2200);
+
+}
+
+
+/* =========================
+   RENDER PROJECTS
+========================= */
+
+function renderProjects() {
+
+  const html = projects.map(
+    (project, index) => {
+
+      return `
+
+        <div class="project">
+
+          <div>
+
+            <div class="project-name">
+              ${escapeHTML(project.name)}
+            </div>
+
+            <div class="muted">
+              ${escapeHTML(project.code)}
+            </div>
+
+            <div class="muted">
+              ${escapeHTML(project.desc)}
+            </div>
+
+            <div>
+
+              ${(project.tags || [])
+                .map(
+                  tag =>
+                    `<span class="tag">
+                      ${escapeHTML(tag)}
+                    </span>`
+                )
+                .join("")}
+
+            </div>
+
+            <div class="progress">
+
+              <i
+                style="
+                  width:${Number(project.progress) || 0}%
+                "
+              ></i>
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <span class="status">
+              ${escapeHTML(project.status)}
+            </span>
+
+            <br>
+
+            <button
+              class="btn"
+              style="margin-top:5px"
+              onclick="openProject(${index})"
+            >
+              باز کردن
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  ).join("");
+
+
+  $("projectList").innerHTML = html;
+
+  $("allProjects").innerHTML = html;
+
+  $("projectCount").textContent =
+    String(projects.length).padStart(2, "0");
+
+}
+
+
+/* =========================
+   NEW PROJECT
+========================= */
+
+function newProject() {
+
+  showScreen("analysis");
+
+  $("projectTitle").focus();
+
+  toast("فرم پروژه جدید آماده است");
+
+}
+
+
+/* =========================
+   OPEN PROJECT
+========================= */
+
+function openProject(index) {
+
+  const project = projects[index];
+
+  if (!project) {
+    return;
+  }
+
+  showScreen("analysis");
+
+  $("projectTitle").value =
+    project.name || "";
+
+  $("projectCode").value =
+    project.code || "";
+
+  $("projectDescription").value =
+    project.desc || "";
+
+  $("projectGoal").value =
+    project.goal || "";
+
+  $("projectBudget").value =
+    project.budget || "";
+
+  $("projectConstraints").value =
+    project.constraints || "";
+
+  toast("پروژه باز شد");
+
+}
+
+
+/* =========================
+   SAVE PROJECT
+========================= */
+
+function saveProject() {
+
+  const project = {
+
+    name:
+      $("projectTitle").value.trim()
+      || "پروژه بدون نام",
+
+    code:
+      $("projectCode").value.trim()
+      || "NX-" + Date.now(),
+
+    desc:
+      $("projectDescription").value.trim(),
+
+    goal:
+      $("projectGoal").value.trim(),
+
+    budget:
+      $("projectBudget").value.trim(),
+
+    constraints:
+      $("projectConstraints").value.trim(),
+
+    status:
+      "در حال تحلیل",
+
+    progress:
+      20,
+
+    tags:
+      ["پروژه جدید"]
+
+  };
+
+
+  const existingIndex =
+    projects.findIndex(
+      p => p.code === project.code
+    );
+
+
+  if (existingIndex >= 0) {
+
+    projects[existingIndex] = {
+      ...projects[existingIndex],
+      ...project
+    };
+
+  } else {
+
+    projects.unshift(project);
+
+  }
+
+
+  localStorage.setItem(
+    "nexus_projects",
+    JSON.stringify(projects)
+  );
+
+
+  renderProjects();
+
+  toast("پروژه با موفقیت ذخیره شد");
+
+}
+
+
+/* =========================
+   DEMO DATA
+========================= */
+
+function loadDemo() {
+
+  $("projectTitle").value =
+    "سامانه کاهش نیروی جابه‌جایی";
+
+  $("projectCode").value =
+    "NX-2026-015";
+
+  $("projectDescription").value =
+    "کاربر برای جابه‌جایی بار در کارگاه به نیروی زیادی نیاز دارد و کنترل حرکت دشوار است.";
+
+  $("projectGoal").value =
+    "کاهش حداقل 30 درصدی نیروی ورودی بدون افزایش خطر.";
+
+  $("projectBudget").value =
+    "کم / 10 روز";
+
+  $("projectConstraints").value =
+    "قطعات بازار، وزن کم، ابزار معمولی، ایمنی و قابلیت تعمیر.";
+
+  toast("داده نمونه وارد شد");
+
+}
+
+
+/* =========================
+   FILES
+========================= */
+
+function showFileNames() {
+
+  const files =
+    $("projectFiles").files;
+
+  if (!files.length) {
+
+    $("fileNames").textContent =
+      "فایلی انتخاب نشده است.";
+
+    return;
+
+  }
+
+
+  $("fileNames").textContent =
+    Array.from(files)
+      .map(file => file.name)
+      .join(" • ");
+
+}
+
+
+/* =========================
+   LOCAL ANALYSIS ENGINE
+========================= */
+
+function analyzeProject() {
+
+  const title =
+    $("projectTitle").value.trim();
+
+  const description =
+    $("projectDescription").value.trim();
+
+  const goal =
+    $("projectGoal").value.trim();
+
+  const constraints =
+    $("projectConstraints").value.trim();
+
+
+  if (
+    !title ||
+    !description ||
+    !goal
+  ) {
+
+    $("analysisStatus").textContent =
+      "نام پروژه، مسئله و هدف را کامل کن.";
+
+    return;
+
+  }
+
+
+  let score = 50;
+
+
+  if (title.length > 5) {
+    score += 8;
+  }
+
+  if (description.length > 50) {
+    score += 12;
+  }
+
+  if (goal.length > 10) {
+    score += 12;
+  }
+
+  if (constraints.length > 20) {
+    score += 10;
+  }
+
+
+  score =
+    Math.min(score, 92);
+
+
+  $("analysisScore").textContent =
+    score;
+
+
+  $("analysisBar").style.width =
+    score + "%";
+
+
+  $("riskValue").textContent =
+    constraints.length > 20
+      ? "متوسط"
+      : "نامشخص";
+
+
+  $("feasibilityValue").textContent =
+    constraints.length > 20
+      ? "خوب"
+      : "نیازمند داده";
+
+
+  $("dataValue").textContent =
+    description.length > 50 &&
+    goal.length > 10
+      ? "متوسط"
+      : "کم";
+
+
+  $("confidenceValue").textContent =
+    "اولیه";
+
+
+  const findings = [
+
+    "هدف را عددی و دارای واحد کن.",
+
+    "پارامترهای فیزیکی و شرایط مرزی را کامل کن.",
+
+    "آزمایش قبل و بعد برای اثبات عملکرد طراحی کن.",
+
+    "فرضیات را از داده اندازه‌گیری‌شده جدا نگه دار."
+
+  ];
+
+
+  $("findings").innerHTML =
+    findings
+      .map(
+        item =>
+          `<div class="row">
+            ✦ ${item}
+          </div>`
+      )
+      .join("");
+
+
+  $("analysisStatus").textContent =
+    "✓ پیش‌تحلیل محلی با موفقیت انجام شد.";
+
+  saveProject();
+
+}
+
+
+/* =========================
+   AI LOCAL FALLBACK
+========================= */
+
+function handleChatKey(event) {
+
+  if (event.key === "Enter") {
+
+    askAI();
+
+  }
+
+}
+
+
+function quickPrompt(text) {
+
+  $("chatInput").value = text;
+
+  askAI();
+
+}
+
+
+function askAI() {
+
+  const question =
+    $("chatInput").value.trim();
+
+
+  if (!question) {
+    return;
+  }
+
+
+  $("chat").innerHTML += `
+
+    <div class="bubble me">
+      ${escapeHTML(question)}
+    </div>
+
+  `;
+
+
+  $("chatInput").value = "";
+
+
+  let answer;
+
+
+  if (
+    /ریشه|علت/.test(question)
+  ) {
+
+    answer =
+      "مسئله را به مشاهده، علت احتمالی، شواهد و آزمایش تفکیکی تقسیم کن. علت‌هایی که هنوز شاهد ندارند باید به‌عنوان فرضیه ثبت شوند.";
+
+  }
+
+  else if (
+    /راه.?حل|مقایسه/.test(question)
+  ) {
+
+    answer =
+      "سه مسیر پیشنهاد کن: کم‌هزینه، متعادل و عملکردمحور. سپس هزینه، پیچیدگی، ریسک، ساخت‌پذیری و اثر را امتیازدهی کن.";
+
+  }
+
+  else if (
+    /آزمایش/.test(question)
+  ) {
+
+    answer =
+      "معیار قبولی را عددی تعریف کن، متغیرهای مستقل و وابسته را مشخص کن و برای کاهش خطای تصادفی چند تکرار مستقل انجام بده.";
+
+  }
+
+  else if (
+    /ناقص|اطلاعات/.test(question)
+  ) {
+
+    answer =
+      "اطلاعات مهمی که معمولاً باید تکمیل شوند: هدف عددی، ابعاد، بار، ماده، شرایط کاری، محدودیت ایمنی و روش اندازه‌گیری.";
+
+  }
+
+  else {
+
+    answer =
+      "Frontend سایت فعال است. برای پاسخ واقعی مدل زبانی باید یک Backend امن به سیستم متصل شود. کلید API را مستقیماً داخل index.html قرار نده.";
+
+  }
+
+
+  $("chat").innerHTML += `
+
+    <div class="bubble">
+
+      <b>NEXUS AI</b>
+
+      <br>
+
+      ${answer}
+
+    </div>
+
+  `;
+
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+renderProjects();
+
+</script>
+
+</body>
+</html>
