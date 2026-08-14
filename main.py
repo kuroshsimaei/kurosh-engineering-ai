@@ -1,25 +1,36 @@
 import os
+from pathlib import Path
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file
 from openai import OpenAI
 
-app = Flask(__name__, static_folder=".")
+BASE_DIR = Path(__file__).resolve().parent
+INDEX_FILE = BASE_DIR / "index.html"
+
+app = Flask(__name__)
 
 API_KEY = os.getenv("OPENAI_API_KEY")
-
 client = OpenAI(api_key=API_KEY) if API_KEY else None
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
-    return send_from_directory(".", "index.html")
+    if not INDEX_FILE.exists():
+        return jsonify({
+            "success": False,
+            "error": "index.html پیدا نشد.",
+            "expected_path": str(INDEX_FILE)
+        }), 500
+
+    return send_file(INDEX_FILE)
 
 
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
         "status": "ok",
-        "ai_configured": client is not None
+        "ai_configured": client is not None,
+        "index_exists": INDEX_FILE.exists()
     })
 
 
@@ -82,14 +93,12 @@ def chat():
             input=message
         )
 
-        answer = response.output_text
-
         return jsonify({
             "success": True,
-            "answer": answer
+            "answer": response.output_text
         })
 
-    except Exception as e:
+    except Exception:
         return jsonify({
             "success": False,
             "error": "خطا در پردازش درخواست AI."
