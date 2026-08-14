@@ -2,490 +2,495 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>NEXUS AI — Engineering Workspace</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #eef2f4;
-      color: #172630;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .topbar {
-      height: 64px;
-      background: #ffffff;
-      border-bottom: 1px solid #dfe6e9;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .top-actions,
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 1px solid #d8e1e5;
-      background: #ffffff;
-      color: #172630;
-      border-radius: 10px;
-      padding: 8px 13px;
-      font-size: 12px;
-    }
-
-    .btn:hover {
-      background: #f1f5f6;
-    }
-
-    .btn-primary {
-      background: #102f40;
-      color: #ffffff;
-      border-color: #102f40;
-    }
-
-    .btn-primary:hover {
-      background: #173f53;
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .status {
-      color: #4c7b61;
-      background: #edf5f0;
-      border-radius: 20px;
-      padding: 5px 9px;
-      font-size: 9px;
-    }
-
-    .page {
-      max-width: 1450px;
-      margin: auto;
-      padding: 25px;
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    .head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 15px;
-    }
-
-    .eyebrow {
-      font-size: 9px;
-      color: #4e8399;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .title {
-      font-size: 30px;
-      margin: 5px 0;
-    }
-
-    .muted {
-      color: #74838b;
-      font-size: 11px;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #dfe6e9;
-      border-radius: 18px;
-      padding: 17px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 12px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin: 18px 0;
-    }
-
-    .metric {
-      background: #ffffff;
-      border: 1px solid #dfe6e9;
-      border-radius: 16px;
-      padding: 13px;
-    }
-
-    .metric small {
-      display: block;
-      color: #74838b;
-      font-size: 9px;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 21px;
-      margin: 3px 0;
-    }
-
-    .project {
-      padding: 13px 0;
-      border-bottom: 1px solid #e5eaec;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-    }
-
-    .project:last-child {
-      border-bottom: 0;
-    }
-
-    .project-name {
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #edf3f5;
-      border-radius: 20px;
-      padding: 3px 7px;
-      font-size: 8px;
-      margin: 5px 3px 0 0;
-    }
-
-    .progress {
-      height: 5px;
-      background: #edf1f3;
-      border-radius: 10px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-
-    .progress i {
-      display: block;
-      height: 100%;
-      background: #4e8399;
-    }
-
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid #dfe6e9;
-      margin-bottom: 14px;
-      overflow-x: auto;
-    }
-
-    .tab {
-      border: 0;
-      background: none;
-      padding: 9px 12px;
-      font-size: 10px;
-      color: #74838b;
-    }
-
-    .tab.active {
-      color: #102f40;
-      border-bottom: 2px solid #102f40;
-      font-weight: bold;
-    }
-
-    .two-columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-    }
-
-    .field {
-      margin-bottom: 11px;
-    }
-
-    .field label {
-      display: block;
-      color: #74838b;
-      font-size: 9px;
-      margin-bottom: 4px;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      border: 1px solid #d9e2e5;
-      border-radius: 10px;
-      padding: 9px;
-      background: #ffffff;
-      color: #172630;
-      outline: none;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: #4e8399;
-    }
-
-    .field textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    .dropzone {
-      border: 1px dashed #aebfc6;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      color: #74838b;
-      font-size: 10px;
-    }
-
-    .dropzone input {
-      display: none;
-    }
-
-    .score {
-      font-size: 60px;
-      font-weight: bold;
-    }
-
-    .bar {
-      height: 8px;
-      background: #e9eff1;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .bar i {
-      display: block;
-      height: 100%;
-      width: 0;
-      background: #4e8399;
-      transition: width 0.5s ease;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .mini {
-      background: #f0f4f5;
-      border-radius: 10px;
-      padding: 9px;
-      font-size: 9px;
-      color: #74838b;
-    }
-
-    .mini b {
-      display: block;
-      color: #172630;
-      font-size: 12px;
-    }
-
-    .row {
-      background: #f1f5f6;
-      border-radius: 11px;
-      padding: 10px;
-      font-size: 10px;
-      margin: 7px 0;
-    }
-
-    .chat {
-      height: 360px;
-      overflow-y: auto;
-      padding: 4px;
-    }
-
-    .bubble {
-      padding: 10px;
-      background: #eef3f4;
-      border-radius: 12px;
-      margin: 7px 0;
-      font-size: 10px;
-      max-width: 90%;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-
-    .bubble.me {
-      background: #102f40;
-      color: white;
-      margin-right: 20%;
-    }
-
-    .chat-input {
-      display: flex;
-      gap: 7px;
-      margin-top: 8px;
-    }
-
-    .chat-input input {
-      flex: 1;
-      border: 1px solid #d9e2e5;
-      border-radius: 10px;
-      padding: 9px;
-      outline: none;
-    }
-
-    .chat-input input:focus {
-      border-color: #4e8399;
-    }
-
-    .science-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .science-grid .card {
-      min-height: 120px;
-    }
-
-    .menu {
-      position: fixed;
-      top: 60px;
-      right: 15px;
-      width: 300px;
-      background: #ffffff;
-      border: 1px solid #dfe6e9;
-      border-radius: 16px;
-      padding: 10px;
-      box-shadow: 0 20px 50px #0002;
-      display: none;
-      z-index: 1000;
-    }
-
-    .menu.open {
-      display: block;
-    }
-
-    .menu button {
-      display: block;
-      width: 100%;
-      border: 0;
-      background: none;
-      text-align: right;
-      padding: 9px;
-      border-radius: 8px;
-      font-size: 10px;
-    }
-
-    .menu button:hover {
-      background: #eef3f4;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: #102f40;
-      color: white;
-      padding: 9px 13px;
-      border-radius: 10px;
-      font-size: 10px;
-      display: none;
-      z-index: 2000;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-    }
-
-    th,
-    td {
-      border-bottom: 1px solid #dfe6e9;
-      padding: 10px;
-      text-align: right;
-    }
-
-    th {
-      color: #74838b;
-      font-size: 9px;
-    }
-
-    @media (max-width: 900px) {
-      .metrics {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .science-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .page {
-        padding: 12px;
-      }
-
-      .metrics,
-      .grid-3 {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .two-columns {
-        grid-template-columns: 1fr;
-      }
-
-      .title {
-        font-size: 24px;
-      }
-
-      .topbar .status {
-        display: none;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXUS AI — Engineering Workspace</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Tahoma, Arial, sans-serif;
+  background: #eef2f4;
+  color: #172630;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  height: 64px;
+  background: #fff;
+  border-bottom: 1px solid #dfe6e9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-actions,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 1px solid #d8e1e5;
+  background: #fff;
+  color: #172630;
+  border-radius: 10px;
+  padding: 8px 13px;
+  font-size: 12px;
+}
+
+.btn:hover {
+  background: #f1f5f6;
+}
+
+.btn-primary {
+  background: #102f40;
+  color: #fff;
+  border-color: #102f40;
+}
+
+.btn-primary:hover {
+  background: #173f53;
+}
+
+.btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.status {
+  color: #4c7b61;
+  background: #edf5f0;
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 9px;
+}
+
+.page {
+  max-width: 1450px;
+  margin: auto;
+  padding: 25px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.eyebrow {
+  font-size: 9px;
+  color: #4e8399;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.title {
+  font-size: 30px;
+  margin: 5px 0;
+}
+
+.muted {
+  color: #74838b;
+  font-size: 11px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #dfe6e9;
+  border-radius: 18px;
+  padding: 17px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 12px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.metric {
+  background: #fff;
+  border: 1px solid #dfe6e9;
+  border-radius: 16px;
+  padding: 13px;
+}
+
+.metric small {
+  display: block;
+  color: #74838b;
+  font-size: 9px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 21px;
+  margin: 3px 0;
+}
+
+.project {
+  padding: 13px 0;
+  border-bottom: 1px solid #e5eaec;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.project:last-child {
+  border-bottom: 0;
+}
+
+.project-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.tag {
+  display: inline-block;
+  background: #edf3f5;
+  border-radius: 20px;
+  padding: 3px 7px;
+  font-size: 8px;
+  margin: 5px 3px 0 0;
+}
+
+.progress {
+  height: 5px;
+  background: #edf1f3;
+  border-radius: 10px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  background: #4e8399;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #dfe6e9;
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+
+.tab {
+  border: 0;
+  background: none;
+  padding: 9px 12px;
+  font-size: 10px;
+  color: #74838b;
+}
+
+.tab.active {
+  color: #102f40;
+  border-bottom: 2px solid #102f40;
+  font-weight: bold;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.field {
+  margin-bottom: 11px;
+}
+
+.field label {
+  display: block;
+  color: #74838b;
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  border: 1px solid #d9e2e5;
+  border-radius: 10px;
+  padding: 9px;
+  background: #fff;
+  color: #172630;
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: #4e8399;
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.dropzone {
+  border: 1px dashed #aebfc6;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  color: #74838b;
+  font-size: 10px;
+}
+
+.dropzone input {
+  display: none;
+}
+
+.score {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.bar {
+  height: 8px;
+  background: #e9eff1;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #4e8399;
+  transition: width .5s ease;
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.mini {
+  background: #f0f4f5;
+  border-radius: 10px;
+  padding: 9px;
+  font-size: 9px;
+  color: #74838b;
+}
+
+.mini b {
+  display: block;
+  color: #172630;
+  font-size: 12px;
+}
+
+.row {
+  background: #f1f5f6;
+  border-radius: 11px;
+  padding: 10px;
+  font-size: 10px;
+  margin: 7px 0;
+}
+
+.chat {
+  height: 400px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.bubble {
+  padding: 11px;
+  background: #eef3f4;
+  border-radius: 12px;
+  margin: 7px 0;
+  font-size: 10px;
+  max-width: 92%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.9;
+}
+
+.bubble.me {
+  background: #102f40;
+  color: #fff;
+  margin-right: 20%;
+}
+
+.chat-input {
+  display: flex;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  border: 1px solid #d9e2e5;
+  border-radius: 10px;
+  padding: 9px;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #4e8399;
+}
+
+.science-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.science-grid .card {
+  min-height: 120px;
+}
+
+.menu {
+  position: fixed;
+  top: 60px;
+  right: 15px;
+  width: 300px;
+  background: #fff;
+  border: 1px solid #dfe6e9;
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: 0 20px 50px #0002;
+  display: none;
+  z-index: 1000;
+}
+
+.menu.open {
+  display: block;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: right;
+  padding: 9px;
+  border-radius: 8px;
+  font-size: 10px;
+}
+
+.menu button:hover {
+  background: #eef3f4;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #102f40;
+  color: #fff;
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-size: 10px;
+  display: none;
+  z-index: 2000;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #dfe6e9;
+  padding: 10px;
+  text-align: right;
+}
+
+th {
+  color: #74838b;
+  font-size: 9px;
+}
+
+@media (max-width: 900px) {
+  .metrics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .science-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 12px;
+  }
+
+  .metrics,
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .topbar .status {
+    display: none;
+  }
+
+  .topbar {
+    padding: 0 10px;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -502,7 +507,10 @@
   </div>
 
   <div class="top-actions">
-    <span class="status">● Frontend Ready</span>
+
+    <span class="status" id="backendStatus">
+      ● Checking AI
+    </span>
 
     <button class="btn" onclick="newProject()">
       ＋ پروژه
@@ -511,18 +519,24 @@
     <button class="btn btn-primary" onclick="showScreen('ai')">
       ✦ AI Lab
     </button>
+
   </div>
 
 </header>
 
 <main class="page">
 
+<!-- DASHBOARD -->
+
 <section id="dashboard" class="screen active">
 
   <div class="head">
 
     <div>
-      <span class="eyebrow">COMMAND CENTER</span>
+
+      <span class="eyebrow">
+        COMMAND CENTER
+      </span>
 
       <h1 class="title">
         مرکز فرمان پروژه‌های هوشمند
@@ -531,6 +545,7 @@
       <div class="muted">
         مدیریت پروژه، تحلیل، اعتبارسنجی و گزارش در یک محیط واحد.
       </div>
+
     </div>
 
     <div class="actions">
@@ -586,8 +601,8 @@
     </div>
 
     <div class="metric">
-      <small>Storage</small>
-      <strong>LOCAL</strong>
+      <small>AI</small>
+      <strong>ONLINE</strong>
     </div>
 
   </div>
@@ -623,9 +638,11 @@
       </div>
 
       <div class="row">
-        <b>✓ Real AI Backend</b>
+        <b id="systemAI">
+          ⏳ Real AI
+        </b>
         <br>
-        اتصال امن به Backend برای پردازش درخواست‌های AI.
+        در حال بررسی اتصال Backend...
       </div>
 
     </div>
@@ -634,11 +651,15 @@
 
 </section>
 
+
+<!-- PROJECTS -->
+
 <section id="projects" class="screen">
 
   <div class="head">
 
     <div>
+
       <span class="eyebrow">
         PROJECT REGISTRY
       </span>
@@ -646,6 +667,7 @@
       <h1 class="title">
         پروژه‌های من
       </h1>
+
     </div>
 
     <button class="btn btn-primary" onclick="newProject()">
@@ -662,6 +684,9 @@
 
 </section>
 
+
+<!-- ANALYSIS -->
+
 <section id="analysis" class="screen">
 
   <div class="head">
@@ -677,7 +702,7 @@
       </h1>
 
       <div class="muted">
-        داده را وارد کن و تحلیل اولیه را در مرورگر اجرا کن.
+        داده را وارد کن و تحلیل اولیه را اجرا کن.
       </div>
 
     </div>
@@ -845,6 +870,7 @@
 
     </div>
 
+
     <div class="card">
 
       <h3>
@@ -911,6 +937,9 @@
 
 </section>
 
+
+<!-- AI -->
+
 <section id="ai" class="screen">
 
   <div class="head">
@@ -926,7 +955,7 @@
       </h1>
 
       <div class="muted">
-        اتصال مستقیم رابط کاربری به NEXUS AI Backend.
+        چت هوشمند NEXUS AI با Backend امن فعال است.
       </div>
 
     </div>
@@ -955,8 +984,9 @@
 
           <br>
 
-          اتصال به هوش مصنوعی آماده است.
-          سؤالت را بپرس.
+          سلام. من NEXUS AI هستم.
+          <br>
+          سؤالت را بپرس؛ پاسخ از طریق Backend واقعی پردازش می‌شود.
 
         </div>
 
@@ -966,7 +996,7 @@
 
         <input
           id="chatInput"
-          placeholder="مثلاً سه راه‌حل پیشنهاد بده"
+          placeholder="مثلاً سه راه‌حل مهندسی پیشنهاد بده"
           onkeydown="handleChatKey(event)"
         >
 
@@ -981,6 +1011,7 @@
       </div>
 
     </div>
+
 
     <div class="card">
 
@@ -1020,11 +1051,22 @@
         کشف اطلاعات ناقص
       </div>
 
+      <div
+        class="row"
+        onclick="quickPrompt('این پروژه را از نظر ریسک، هزینه، ساخت‌پذیری و ایمنی بررسی کن.')"
+        style="cursor:pointer"
+      >
+        ارزیابی مهندسی
+      </div>
+
     </div>
 
   </div>
 
 </section>
+
+
+<!-- COMPARE -->
 
 <section id="compare" class="screen">
 
@@ -1105,6 +1147,9 @@
 
 </section>
 
+
+<!-- VALIDATION -->
+
 <section id="validation" class="screen">
 
   <div class="head">
@@ -1155,44 +1200,29 @@
   <div class="card">
 
     <div class="row">
-
-      <b>
-        آزمون کاهش نیرو
-      </b>
-
+      <b>آزمون کاهش نیرو</b>
       <br>
-
       معیار قبولی: حداقل ۳۰٪ کاهش و سه تکرار مستقل.
-
     </div>
 
     <div class="row">
-
-      <b>
-        آزمون دوام
-      </b>
-
+      <b>آزمون دوام</b>
       <br>
-
       معیار قبولی: حفظ عملکرد پس از چرخه‌های تعریف‌شده.
-
     </div>
 
     <div class="row">
-
-      <b>
-        آزمون کاربر
-      </b>
-
+      <b>آزمون کاربر</b>
       <br>
-
       معیار قبولی: کاهش تلاش بدون افت کیفیت.
-
     </div>
 
   </div>
 
 </section>
+
+
+<!-- SCIENCE -->
 
 <section id="science" class="screen">
 
@@ -1257,6 +1287,9 @@
   </div>
 
 </section>
+
+
+<!-- RESOURCES -->
 
 <section id="resources" class="screen">
 
@@ -1327,6 +1360,9 @@
 
 </section>
 
+
+<!-- REPORTS -->
+
 <section id="reports" class="screen">
 
   <div class="head">
@@ -1386,6 +1422,9 @@
 
 </section>
 
+
+<!-- SETTINGS -->
+
 <section id="settings" class="screen">
 
   <div class="head">
@@ -1417,10 +1456,12 @@
           سطح تحلیل
         </label>
 
-        <select>
+        <select id="analysisLevel">
+
           <option>جامع</option>
           <option>استاندارد</option>
           <option>سریع</option>
+
         </select>
 
       </div>
@@ -1432,8 +1473,15 @@
         </label>
 
         <select>
-          <option>تحلیلی + اجرایی</option>
-          <option>خلاصه مدیریتی</option>
+
+          <option>
+            تحلیلی + اجرایی
+          </option>
+
+          <option>
+            خلاصه مدیریتی
+          </option>
+
         </select>
 
       </div>
@@ -1443,15 +1491,27 @@
     <div class="card">
 
       <div class="row">
-        <b>ایمنی</b>
+
+        <b>
+          ایمنی
+        </b>
+
         <br>
+
         معیار مستقل تصمیم‌گیری.
+
       </div>
 
       <div class="row">
-        <b>عدم قطعیت</b>
+
+        <b>
+          عدم قطعیت
+        </b>
+
         <br>
+
         فرضیات از داده واقعی جدا شوند.
+
       </div>
 
     </div>
@@ -1461,6 +1521,9 @@
 </section>
 
 </main>
+
+
+<!-- MENU -->
 
 <div
   id="menu"
@@ -1519,24 +1582,29 @@
 
 </div>
 
-<div
-  id="toast"
-  class="toast"
-></div>
+
+<div id="toast" class="toast"></div>
+
 
 <script>
 
-/* =========================
-   NEXUS AI BACKEND
-========================= */
+/* =====================================================
+   CONFIGURATION
+===================================================== */
 
-const API_BASE_URL =
+const API_BASE =
   "https://kurosh-engineering-ai.onrender.com";
 
+const CHAT_ENDPOINT =
+  API_BASE + "/api/chat";
 
-/* =========================
+const HEALTH_ENDPOINT =
+  API_BASE + "/health";
+
+
+/* =====================================================
    PROJECT DATABASE
-========================= */
+===================================================== */
 
 const defaultProjects = [
 
@@ -1585,12 +1653,13 @@ let projects =
   ) || defaultProjects;
 
 
-/* =========================
-   HELPERS
-========================= */
+/* =====================================================
+   HELPER
+===================================================== */
 
-const $ = id =>
-  document.getElementById(id);
+function $(id) {
+  return document.getElementById(id);
+}
 
 
 function escapeHTML(value) {
@@ -1613,9 +1682,9 @@ function escapeHTML(value) {
 }
 
 
-/* =========================
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
 const screenTitles = {
 
@@ -1676,9 +1745,9 @@ function closeMenu() {
 }
 
 
-/* =========================
+/* =====================================================
    TOAST
-========================= */
+===================================================== */
 
 function toast(message) {
 
@@ -1695,14 +1764,14 @@ function toast(message) {
 
       element.style.display = "none";
 
-    }, 2200);
+    }, 2500);
 
 }
 
 
-/* =========================
+/* =====================================================
    RENDER PROJECTS
-========================= */
+===================================================== */
 
 function renderProjects() {
 
@@ -1744,7 +1813,13 @@ function renderProjects() {
 
               <i
                 style="
-                  width:${Number(project.progress) || 0}%
+                  width:${Math.min(
+                    100,
+                    Math.max(
+                      0,
+                      Number(project.progress) || 0
+                    )
+                  )}%
                 "
               ></i>
 
@@ -1788,9 +1863,9 @@ function renderProjects() {
 }
 
 
-/* =========================
+/* =====================================================
    NEW PROJECT
-========================= */
+===================================================== */
 
 function newProject() {
 
@@ -1803,9 +1878,9 @@ function newProject() {
 }
 
 
-/* =========================
+/* =====================================================
    OPEN PROJECT
-========================= */
+===================================================== */
 
 function openProject(index) {
 
@@ -1840,9 +1915,9 @@ function openProject(index) {
 }
 
 
-/* =========================
+/* =====================================================
    SAVE PROJECT
-========================= */
+===================================================== */
 
 function saveProject() {
 
@@ -1913,9 +1988,9 @@ function saveProject() {
 }
 
 
-/* =========================
-   DEMO DATA
-========================= */
+/* =====================================================
+   DEMO
+===================================================== */
 
 function loadDemo() {
 
@@ -1942,9 +2017,9 @@ function loadDemo() {
 }
 
 
-/* =========================
+/* =====================================================
    FILES
-========================= */
+===================================================== */
 
 function showFileNames() {
 
@@ -1960,7 +2035,6 @@ function showFileNames() {
 
   }
 
-
   $("fileNames").textContent =
     Array.from(files)
       .map(file => file.name)
@@ -1969,9 +2043,9 @@ function showFileNames() {
 }
 
 
-/* =========================
-   LOCAL ANALYSIS ENGINE
-========================= */
+/* =====================================================
+   LOCAL PROJECT ANALYSIS
+===================================================== */
 
 function analyzeProject() {
 
@@ -2089,9 +2163,9 @@ function analyzeProject() {
 }
 
 
-/* =========================
-   REAL AI CHAT
-========================= */
+/* =====================================================
+   CHAT
+===================================================== */
 
 function handleChatKey(event) {
 
@@ -2113,15 +2187,30 @@ function quickPrompt(text) {
 
   $("chatInput").value = text;
 
+  showScreen("ai");
+
   askAI();
 
 }
 
 
+/* =====================================================
+   REAL AI REQUEST
+===================================================== */
+
 async function askAI() {
 
+  const input =
+    $("chatInput");
+
+  const chat =
+    $("chat");
+
+  const sendButton =
+    $("sendButton");
+
   const question =
-    $("chatInput").value.trim();
+    input.value.trim();
 
 
   if (!question) {
@@ -2129,14 +2218,9 @@ async function askAI() {
   }
 
 
-  const input =
-    $("chatInput");
+  /* USER MESSAGE */
 
-  const sendButton =
-    $("sendButton");
-
-
-  $("chat").innerHTML += `
+  chat.innerHTML += `
 
     <div class="bubble me">
       ${escapeHTML(question)}
@@ -2151,14 +2235,16 @@ async function askAI() {
 
   sendButton.disabled = true;
 
-  sendButton.textContent = "در حال پردازش...";
+  sendButton.textContent = "...";
 
+
+  /* LOADING MESSAGE */
 
   const loadingId =
     "ai-loading-" + Date.now();
 
 
-  $("chat").innerHTML += `
+  chat.innerHTML += `
 
     <div
       class="bubble"
@@ -2169,23 +2255,24 @@ async function askAI() {
 
       <br>
 
-      در حال پردازش درخواست...
+      در حال تحلیل درخواست...
 
     </div>
 
   `;
 
 
-  $("chat").scrollTop =
-    $("chat").scrollHeight;
+  chat.scrollTop =
+    chat.scrollHeight;
 
 
   try {
 
     const response =
       await fetch(
-        API_BASE_URL + "/api/chat",
+        CHAT_ENDPOINT,
         {
+
           method: "POST",
 
           headers: {
@@ -2195,11 +2282,12 @@ async function askAI() {
           body: JSON.stringify({
             message: question
           })
+
         }
       );
 
 
-    let data = null;
+    let data;
 
 
     try {
@@ -2207,106 +2295,227 @@ async function askAI() {
       data =
         await response.json();
 
-    } catch {
-
-      data = null;
-
     }
 
-
-    const loading =
-      $(loadingId);
-
-
-    if (loading) {
-      loading.remove();
-    }
-
-
-    if (
-      !response.ok ||
-      !data ||
-      !data.success
-    ) {
+    catch {
 
       throw new Error(
-        data?.error ||
-        "پاسخ معتبر از Backend دریافت نشد."
+        "Backend پاسخ JSON معتبر برنگرداند."
       );
 
     }
 
 
-    $("chat").innerHTML += `
-
-      <div class="bubble">
-
-        <b>NEXUS AI</b>
-
-        <br>
-
-        ${escapeHTML(data.answer)}
-
-      </div>
-
-    `;
+    const loadingElement =
+      document.getElementById(
+        loadingId
+      );
 
 
-  } catch (error) {
+    if (
+      !response.ok ||
+      !data.success
+    ) {
 
-    const loading =
-      $(loadingId);
+      if (loadingElement) {
 
+        loadingElement.innerHTML = `
 
-    if (loading) {
-      loading.remove();
+          <b>NEXUS AI</b>
+
+          <br>
+
+          خطا در Backend:
+
+          ${escapeHTML(
+            data.error ||
+            "خطای نامشخص"
+          )}
+
+        `;
+
+      }
+
+      return;
+
     }
 
 
-    $("chat").innerHTML += `
+    /* REAL AI ANSWER */
 
-      <div class="bubble">
+    if (loadingElement) {
+
+      loadingElement.innerHTML = `
 
         <b>NEXUS AI</b>
 
         <br>
 
-        ⚠ اتصال به سرور هوش مصنوعی برقرار نشد.
+        ${escapeHTML(
+          data.answer
+        )}
 
-        <br><br>
+      `;
 
-        <span class="muted">
-          ${escapeHTML(error.message)}
-        </span>
-
-      </div>
-
-    `;
+    }
 
   }
 
 
-  input.disabled = false;
+  catch (error) {
 
-  sendButton.disabled = false;
-
-  sendButton.textContent = "ارسال";
-
-
-  input.focus();
+    console.error(
+      "NEXUS AI ERROR:",
+      error
+    );
 
 
-  $("chat").scrollTop =
-    $("chat").scrollHeight;
+    const loadingElement =
+      document.getElementById(
+        loadingId
+      );
+
+
+    if (loadingElement) {
+
+      loadingElement.innerHTML = `
+
+        <b>NEXUS AI</b>
+
+        <br>
+
+        ❌ اتصال به Backend برقرار نشد.
+
+        <br><br>
+
+        آدرس Backend:
+
+        <br>
+
+        ${escapeHTML(
+          API_BASE
+        )}
+
+      `;
+
+    }
+
+  }
+
+
+  finally {
+
+    input.disabled = false;
+
+    sendButton.disabled = false;
+
+    sendButton.textContent = "ارسال";
+
+    input.focus();
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
 
 }
 
 
-/* =========================
+/* =====================================================
+   BACKEND HEALTH CHECK
+===================================================== */
+
+async function checkBackend() {
+
+  const status =
+    $("backendStatus");
+
+  const systemAI =
+    $("systemAI");
+
+
+  try {
+
+    const response =
+      await fetch(
+        HEALTH_ENDPOINT,
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      response.ok &&
+      data.status === "healthy"
+    ) {
+
+      status.textContent =
+        data.api_configured
+          ? "● AI Online"
+          : "● Backend Online";
+
+      status.style.color =
+        "#4c7b61";
+
+      status.style.background =
+        "#edf5f0";
+
+
+      systemAI.textContent =
+        data.api_configured
+          ? "✓ Real AI Backend"
+          : "⚠ API Key Missing";
+
+      return;
+
+    }
+
+
+    throw new Error(
+      "Backend unhealthy"
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "HEALTH CHECK ERROR:",
+      error
+    );
+
+
+    status.textContent =
+      "● AI Offline";
+
+    status.style.color =
+      "#9a5a5a";
+
+    status.style.background =
+      "#f7eeee";
+
+
+    systemAI.textContent =
+      "⚠ Real AI Backend Offline";
+
+  }
+
+}
+
+
+/* =====================================================
    INITIALIZE
-========================= */
+===================================================== */
 
 renderProjects();
+
+checkBackend();
 
 </script>
 
