@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -71,6 +72,11 @@
 
     .btn-primary:hover {
       background: #173f53;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .status {
@@ -340,6 +346,8 @@
       margin: 7px 0;
       font-size: 10px;
       max-width: 90%;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .bubble.me {
@@ -360,6 +368,10 @@
       border-radius: 10px;
       padding: 9px;
       outline: none;
+    }
+
+    .chat-input input:focus {
+      border-color: #4e8399;
     }
 
     .science-grid {
@@ -505,8 +517,6 @@
 
 <main class="page">
 
-<!-- DASHBOARD -->
-
 <section id="dashboard" class="screen active">
 
   <div class="head">
@@ -548,8 +558,7 @@
     </h2>
 
     <div class="muted">
-      نسخه Static برای GitHub Pages؛
-      قابلیت‌های سمت کاربر بدون Backend کار می‌کنند.
+      محیط مهندسی NEXUS AI با اتصال به هوش مصنوعی واقعی.
     </div>
 
   </div>
@@ -604,7 +613,7 @@
       <div class="row">
         <b>✓ Frontend</b>
         <br>
-        فرم‌ها، دکمه‌ها و تحلیل محلی فعال هستند.
+        رابط کاربری فعال است.
       </div>
 
       <div class="row">
@@ -614,9 +623,9 @@
       </div>
 
       <div class="row">
-        <b>⚠ Real AI</b>
+        <b>✓ Real AI Backend</b>
         <br>
-        برای مدل واقعی باید Backend امن متصل شود.
+        اتصال امن به Backend برای پردازش درخواست‌های AI.
       </div>
 
     </div>
@@ -624,9 +633,6 @@
   </div>
 
 </section>
-
-
-<!-- PROJECTS -->
 
 <section id="projects" class="screen">
 
@@ -655,9 +661,6 @@
   </div>
 
 </section>
-
-
-<!-- ANALYSIS -->
 
 <section id="analysis" class="screen">
 
@@ -842,7 +845,6 @@
 
     </div>
 
-
     <div class="card">
 
       <h3>
@@ -909,9 +911,6 @@
 
 </section>
 
-
-<!-- AI -->
-
 <section id="ai" class="screen">
 
   <div class="head">
@@ -927,7 +926,7 @@
       </h1>
 
       <div class="muted">
-        رابط چت و پاسخ محلی فعال است.
+        اتصال مستقیم رابط کاربری به NEXUS AI Backend.
       </div>
 
     </div>
@@ -956,8 +955,8 @@
 
           <br>
 
+          اتصال به هوش مصنوعی آماده است.
           سؤالت را بپرس.
-          در حالت Static پاسخ راهنمای محلی ارائه می‌دهم.
 
         </div>
 
@@ -972,6 +971,7 @@
         >
 
         <button
+          id="sendButton"
           class="btn btn-primary"
           onclick="askAI()"
         >
@@ -981,7 +981,6 @@
       </div>
 
     </div>
-
 
     <div class="card">
 
@@ -1026,9 +1025,6 @@
   </div>
 
 </section>
-
-
-<!-- COMPARE -->
 
 <section id="compare" class="screen">
 
@@ -1108,9 +1104,6 @@
   </div>
 
 </section>
-
-
-<!-- VALIDATION -->
 
 <section id="validation" class="screen">
 
@@ -1201,9 +1194,6 @@
 
 </section>
 
-
-<!-- SCIENCE -->
-
 <section id="science" class="screen">
 
   <div class="head">
@@ -1267,9 +1257,6 @@
   </div>
 
 </section>
-
-
-<!-- RESOURCES -->
 
 <section id="resources" class="screen">
 
@@ -1340,9 +1327,6 @@
 
 </section>
 
-
-<!-- REPORTS -->
-
 <section id="reports" class="screen">
 
   <div class="head">
@@ -1401,9 +1385,6 @@
   </div>
 
 </section>
-
-
-<!-- SETTINGS -->
 
 <section id="settings" class="screen">
 
@@ -1481,9 +1462,6 @@
 
 </main>
 
-
-<!-- MENU -->
-
 <div
   id="menu"
   class="menu"
@@ -1541,14 +1519,20 @@
 
 </div>
 
-
 <div
   id="toast"
   class="toast"
 ></div>
 
-
 <script>
+
+/* =========================
+   NEXUS AI BACKEND
+========================= */
+
+const API_BASE_URL =
+  "https://kurosh-engineering-ai.onrender.com";
+
 
 /* =========================
    PROJECT DATABASE
@@ -2106,12 +2090,17 @@ function analyzeProject() {
 
 
 /* =========================
-   AI LOCAL FALLBACK
+   REAL AI CHAT
 ========================= */
 
 function handleChatKey(event) {
 
-  if (event.key === "Enter") {
+  if (
+    event.key === "Enter" &&
+    !event.shiftKey
+  ) {
+
+    event.preventDefault();
 
     askAI();
 
@@ -2129,7 +2118,7 @@ function quickPrompt(text) {
 }
 
 
-function askAI() {
+async function askAI() {
 
   const question =
     $("chatInput").value.trim();
@@ -2138,6 +2127,13 @@ function askAI() {
   if (!question) {
     return;
   }
+
+
+  const input =
+    $("chatInput");
+
+  const sendButton =
+    $("sendButton");
 
 
   $("chat").innerHTML += `
@@ -2149,69 +2145,155 @@ function askAI() {
   `;
 
 
-  $("chatInput").value = "";
+  input.value = "";
+
+  input.disabled = true;
+
+  sendButton.disabled = true;
+
+  sendButton.textContent = "در حال پردازش...";
 
 
-  let answer;
-
-
-  if (
-    /ریشه|علت/.test(question)
-  ) {
-
-    answer =
-      "مسئله را به مشاهده، علت احتمالی، شواهد و آزمایش تفکیکی تقسیم کن. علت‌هایی که هنوز شاهد ندارند باید به‌عنوان فرضیه ثبت شوند.";
-
-  }
-
-  else if (
-    /راه.?حل|مقایسه/.test(question)
-  ) {
-
-    answer =
-      "سه مسیر پیشنهاد کن: کم‌هزینه، متعادل و عملکردمحور. سپس هزینه، پیچیدگی، ریسک، ساخت‌پذیری و اثر را امتیازدهی کن.";
-
-  }
-
-  else if (
-    /آزمایش/.test(question)
-  ) {
-
-    answer =
-      "معیار قبولی را عددی تعریف کن، متغیرهای مستقل و وابسته را مشخص کن و برای کاهش خطای تصادفی چند تکرار مستقل انجام بده.";
-
-  }
-
-  else if (
-    /ناقص|اطلاعات/.test(question)
-  ) {
-
-    answer =
-      "اطلاعات مهمی که معمولاً باید تکمیل شوند: هدف عددی، ابعاد، بار، ماده، شرایط کاری، محدودیت ایمنی و روش اندازه‌گیری.";
-
-  }
-
-  else {
-
-    answer =
-      "Frontend سایت فعال است. برای پاسخ واقعی مدل زبانی باید یک Backend امن به سیستم متصل شود. کلید API را مستقیماً داخل index.html قرار نده.";
-
-  }
+  const loadingId =
+    "ai-loading-" + Date.now();
 
 
   $("chat").innerHTML += `
 
-    <div class="bubble">
+    <div
+      class="bubble"
+      id="${loadingId}"
+    >
 
       <b>NEXUS AI</b>
 
       <br>
 
-      ${answer}
+      در حال پردازش درخواست...
 
     </div>
 
   `;
+
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_BASE_URL + "/api/chat",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            message: question
+          })
+        }
+      );
+
+
+    let data = null;
+
+
+    try {
+
+      data =
+        await response.json();
+
+    } catch {
+
+      data = null;
+
+    }
+
+
+    const loading =
+      $(loadingId);
+
+
+    if (loading) {
+      loading.remove();
+    }
+
+
+    if (
+      !response.ok ||
+      !data ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data?.error ||
+        "پاسخ معتبر از Backend دریافت نشد."
+      );
+
+    }
+
+
+    $("chat").innerHTML += `
+
+      <div class="bubble">
+
+        <b>NEXUS AI</b>
+
+        <br>
+
+        ${escapeHTML(data.answer)}
+
+      </div>
+
+    `;
+
+
+  } catch (error) {
+
+    const loading =
+      $(loadingId);
+
+
+    if (loading) {
+      loading.remove();
+    }
+
+
+    $("chat").innerHTML += `
+
+      <div class="bubble">
+
+        <b>NEXUS AI</b>
+
+        <br>
+
+        ⚠ اتصال به سرور هوش مصنوعی برقرار نشد.
+
+        <br><br>
+
+        <span class="muted">
+          ${escapeHTML(error.message)}
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+
+  input.disabled = false;
+
+  sendButton.disabled = false;
+
+  sendButton.textContent = "ارسال";
+
+
+  input.focus();
 
 
   $("chat").scrollTop =
@@ -2230,3 +2312,4 @@ renderProjects();
 
 </body>
 </html>
+```
